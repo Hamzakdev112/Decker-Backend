@@ -5,6 +5,7 @@ const app = express();
 exports.createPayment = async (payload) => {
   const createPayload = {
     amount: payload.amount,
+    description:payload.description,
     user: payload.user,
   };
   await paymentRepo.create(createPayload);

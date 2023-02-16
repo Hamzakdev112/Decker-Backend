@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 
 // const routes = require('./routes');
 const route = require('../Routes/user')
+const routePayment = require ("../Routes/payment")
 app.use(express.json())
 app.use(cookieParser())
 
@@ -17,6 +18,7 @@ require('../bootstrap/index')
 // const multer=require('multer')
 // const userController=require('../controllers/user')
 app.use(route)
+app.use(routePayment)
 app.use(cors())
 
 //Routes

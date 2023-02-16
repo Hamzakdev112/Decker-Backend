@@ -8,6 +8,9 @@ const createPaymentSchema = new mongoose.Schema({
   amount:{
     type:Number,
     required:true
+  },
+  description:{
+    type:String
   }
 });
 
