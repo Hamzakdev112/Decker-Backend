@@ -8,7 +8,7 @@ const loginUser = require ("../middleware/loginUser")
 router.post('/post',loginUser, userController.createPost)
 
 //(create user route)
-router.post('/signUp', userController.createUser)
+router.post('/signUp',multers, userController.createUser)
 
 
 //(login user)

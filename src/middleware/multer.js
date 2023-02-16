@@ -1,3 +1,12 @@
+const express = require("express");
+const cloudinary = require("cloudinary").v2;
+const path = require("path");
+const multer = require("multer");
+cloudinary.config({
+  cloud_name: "dtxirhjul",
+  api_key: "164976764714351",
+  api_secret: "A3tpcECzWmJrdT2Qeyww0Mk0Yb4",
+});
 const imageMiddleWare = () => {
   var storage = multer.diskStorage({
     destination: (req, file, cb) => {
