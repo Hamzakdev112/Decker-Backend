@@ -1,11 +1,16 @@
+
 const express=require('express')
 const app=express()
 const port = 4500;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 
 // const routes = require('./routes');
 const route = require('../Routes/user')
 app.use(express.json())
+app.use(cookieParser())
+
 app.use(express.urlencoded({ extended: true }))
 require('../bootstrap/index')
 // const router=express.Router()

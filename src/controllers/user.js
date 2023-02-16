@@ -1,14 +1,12 @@
 const service = require('../services/user')
 const { catchAsync } = require('../helpers/request');
-const fs=require('fs')
-const path=require('path');
-const cloudinary = require('../cloudinary/cloudinary');
+
 //const file = require('../cloudinary/cloudinary')
 const fileUpload = require('express-fileupload')
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser');
-const multers = require('../middleware/multer');
+
 
 //create user
 exports.createUser = catchAsync(async (req, res, next) => {
@@ -19,8 +17,9 @@ exports.createUser = catchAsync(async (req, res, next) => {
     gender: req.body.gender,
     password: req.body.password,
     phone: req.body.phone,
- 
+    image: req.body.imageURL,
   };
+
   res.body = await service.createUser(payload);
   return res.json(res.body);
 });
@@ -28,15 +27,20 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
 //login user
 exports.loginUser = catchAsync(async (req, res, next) => {
-
   const payload = {
-
     email: req.body.email,
     password: req.body.password,
     fromPortal: req.body.fromPortal || false,
   };
+
+  const options = {
+            expires: new Date(Date.now() + 86400000 * 5),
+    httpOnly: true,
+  };
   res.body = await service.loginUser(payload);
-  return res.json(res.body);
+  return res
+    .cookie("token", res.body, options)
+    .json({ message: "user logged in" });
 });
 
 
@@ -44,18 +48,18 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 // create post
 exports.createPost = catchAsync(async (req, res, next) => {
   const payload = {
-
-    userId: req.body.userId,
+    // userId: req.body.userId,
+    user: req.user._id,
     file: req.body.file,
-    postType: req.body.file,
+    postType: req.body.postType,
   };
-  console.log(payload)
+ 
   res.body = await service.createPost(payload);
   return res.json(res.body);
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload ({
   useTempFiles: true
   
