@@ -3,13 +3,9 @@ const express = require('express')
 const router=express.Router()
 const userController=require('../controllers/user')
 const multers = require('../middleware/multer');
+const loginUser = require ("../middleware/loginUser")
 
-/* var upload = multer({ storage: storage }); */
-//Routes:
-
-
-//(create post route)
-router.post('/post', userController.createPost)
+router.post('/post',loginUser, userController.createPost)
 
 //(create user route)
 router.post('/signUp', userController.createUser)

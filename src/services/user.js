@@ -89,14 +89,8 @@ exports.uploadImage = async (payload) =>{
 app.use(fileUpload ({
   useTempFiles: true,
 }))
-exports.UploadImage = async(id, payload) => {
-  return userRepo.findByIdAndUpload(id, payload )
-  return {
-    success:true,
-    message: "Image uploaded"
-  }
-  
-}
+
+
 /* exports.uploadImage = async (payload) => {
   const result = await cloudinary.uploader.upload(payload.tempFilePath  ,  {
       public_id: payload.public,
