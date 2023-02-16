@@ -1,12 +1,11 @@
-const postModel=require('../models/schema/post')
-// const userModel=require('../models/schema/user')
+const productModel = require('../models/schema/productPost');
+const jobModel = require('../models/schema/jobPost');
 
-
-exports.create = async (payload) => {
-    return postModel.create(payload);
+exports.createProductPost = (payload) => {
+    return productModel.create(payload) 
   };
   
-//   exports.createU=async(payload)=>{
-//     return userModel.create(payload)
-    
-// }
+exports.createJobPost = (payload) => {
+    return jobModel.create(payload) 
+  };
+  
