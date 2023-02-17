@@ -7,11 +7,11 @@ const stripe = require("stripe")(
 exports.createPayment = catchAsync(async (req, res, next) => {
   const payload = {
     user: req.user._id,
-    email:req.user.email,
     amount: req.body.amount,
     description: req.body.description,
+    email:req.user.email
   };
- 
+
   try {
     const { cardNumber, cardExpMonth, cardExpYear, cvc } = req.body;
     const token = await stripe.tokens.create({
@@ -22,19 +22,26 @@ exports.createPayment = catchAsync(async (req, res, next) => {
         cvc: cvc,
       },
     });
+    const customer = await stripe.customers.create({
+      email: payload.email,
+      source: token.id,
+    });
     const charge = await stripe.charges.create({
       amount: payload.amount,
       currency: "usd",
-      source: token.id,
+      customer: customer.id,
       description: payload.description,
     });
-    res.body = await service.createPayment(payload);
+    payload.stripeCustomerId = customer.id;
+
+    const payment = await service.createPayment(payload);
     const responseObject = {
       charge: charge,
-      body: res.body,
+      payment: payment,
     };
     res.status(200).json(responseObject);
   } catch (error) {
     res.status(500).send(error);
   }
+
 });
