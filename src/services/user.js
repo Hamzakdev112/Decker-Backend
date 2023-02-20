@@ -1,17 +1,16 @@
-const postRepo = require('../repositories/post');
-const userRepo = require('../repositories/user');
-const jwt = require('jsonwebtoken');
-const Boom = require('@hapi/boom');
+const postRepo = require("../repositories/post");
+const userRepo = require("../repositories/user");
+const jwt = require("jsonwebtoken");
+const Boom = require("@hapi/boom");
 
-const express = require('express')
-const app = express()
-const fileUpload = require('express-fileupload')
-// joi 
-const joi = require('../validations/joi');
-const joiSchema = require('../validations/schema/post');
+const express = require("express");
+const app = express();
+const fileUpload = require("express-fileupload");
+// joi
+const joi = require("../validations/joi");
+const joiSchema = require("../validations/schema/post");
 
-
-// create user 
+// create user
 exports.createUser = async (payload) => {
   //  joi.validate(payload, joiSchema.post);
   //   const passwordHash = await bcrypt.hash(payload.password, bcryptSalt);
@@ -65,24 +64,74 @@ exports.createPost = async (payload) => {
     success: true,
   };
 };
-exports.uploadImage = async (payload) =>{
+exports.uploadImage = async (payload) => {
   const createpayload = {
     userID: payload.userId,
-    image: payload.file
+    image: payload.file,
+  };
+
+  await userRepo.UploadImage(createpayload);
+
+  return {
+    success: true,
+  };
+};
+
+
+exports.userLevel = async (userType, payload) => {
+  const payloads = {
+    userType:userType,
+    learner: {
+      education: payload.education,
+      domain: payload.domain,
+      scope: payload.scope,
+    },
+    intermediate: {
+      education: payload.education,
+      jobStatus: payload.jobStatus,
+      futureInterest: payload.futureInterest,
+    },
+    professional: {
+      enterpise: {
+        education: payload.education,
+        enterpriseName: payload.enterpriseName,
+        enterpriseSize: payload.enterpriseSize,
+      },
+      startup: {
+        education: payload.education,
+        startupName: payload.startupName,
+        startupSize: payload.startupSize,
+      },
+    },
+  };
+
+  const userPayload = payloads[userType];
+  if (!userPayload) {
+    throw new Error(`Invalid userType: ${userType}`);
   }
-  
-  await userRepo.UploadImage(createpayload)
-  //console.log(createpayload.image);
-  return{
-    success:true
+
+  if (userType === "professional") {
+    if (payload.professionalType === "enterpise") {
+      user = await userRepo.userLevel(payload.userId, userPayload.enterpise);
+    } else if (payload.professionalType === "startup") {
+      user = await userRepo.userLevel(payload.userId, userPayload.startup);
+    } else {
+      throw new Error(`Invalid professionalType: ${payload.professionalType}`);
+    }
+  } else {
+    user = await userRepo.userLevel(payload.userId, userPayload);
   }
-}
 
+  return {
+    success: true,
+  };
+};
 
-app.use(fileUpload ({
-  useTempFiles: true,
-}))
-
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 
 /* exports.uploadImage = async (payload) => {
   const result = await cloudinary.uploader.upload(payload.tempFilePath  ,  {

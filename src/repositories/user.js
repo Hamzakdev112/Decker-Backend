@@ -32,6 +32,9 @@ exports.UploadImage = async(createpayload) => {
   }
 
 )}
+exports.userLevel = async (id,payload) =>{
+  return userModel.findByIdAndUpdate(id,payload)
+}
 
 /* exports.uploadImage= async (createPayload) => {
   const results = await imageModel.create(createPayload);

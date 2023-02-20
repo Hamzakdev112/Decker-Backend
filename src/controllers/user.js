@@ -1,14 +1,11 @@
-const service = require('../services/user')
-const { catchAsync } = require('../helpers/request');
+const service = require("../services/user");
+const { catchAsync } = require("../helpers/request");
 
-//const file = require('../cloudinary/cloudinary')
-const fileUpload = require('express-fileupload')
-const express = require('express')
-const app = express()
-var bodyParser = require('body-parser');
+const fileUpload = require("express-fileupload");
+const express = require("express");
+const app = express();
+var bodyParser = require("body-parser");
 
-
-//create user
 exports.createUser = catchAsync(async (req, res, next) => {
   const payload = {
     firstName: req.body.firstName,
@@ -24,8 +21,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
   return res.json(res.body);
 });
 
-
-//login user
 exports.loginUser = catchAsync(async (req, res, next) => {
   const payload = {
     email: req.body.email,
@@ -34,7 +29,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   };
 
   const options = {
-            expires: new Date(Date.now() + 86400000 * 5),
+    expires: new Date(Date.now() + 86400000 * 5),
     httpOnly: true,
   };
   res.body = await service.loginUser(payload);
@@ -43,42 +38,46 @@ exports.loginUser = catchAsync(async (req, res, next) => {
     .json({ message: "user logged in" });
 });
 
-
-
-// create post
 exports.createPost = catchAsync(async (req, res, next) => {
   const payload = {
-    // userId: req.body.userId,
     user: req.user._id,
     file: req.body.file,
     postType: req.body.postType,
   };
- 
+
   res.body = await service.createPost(payload);
   return res.json(res.body);
 });
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload ({
-  useTempFiles: true
-  
-}))
-//upload image
-exports.uploadImage = catchAsync(async (req, res, next) =>{
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
+
+exports.uploadImage = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   console.log(id);
   const payload = {
     userId: id,
-    file:  req.imageURL //req.file.path
-  }
+    file: req.imageURL,
+  };
   console.log(payload);
-  res.body = await service.uploadImage(payload)
-  return res.json(res.body)
-})
+  res.body = await service.uploadImage(payload);
+  return res.json(res.body);
+});
 
+exports.userLevel = catchAsync(async (req, res, next) => {
+  const { userType } = req.params;
 
-
+  const payload = {
+    ...req.body,
+    userType:userType,
+    userId: req.user._id,
+  };
+  res.body = await service.userLevel(userType, payload);
+  return res.json(res.body);
+});
 
 /* 
   

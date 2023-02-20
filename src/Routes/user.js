@@ -7,17 +7,15 @@ const loginUser = require ("../middleware/loginUser")
 
 router.post('/post',loginUser, userController.createPost)
 
-//(create user route)
+
 router.post('/signUp',multers, userController.createUser)
 
 
-//(login user)
 router.get('/login', userController.loginUser)
 
-//router.post('/upload', multer().single('image') ,userController.uploadImage)
 router.put('/upload/:id', multers ,userController.uploadImage)
-//
-// router.post('/upload-Image',userController.uploadImage)
+
+router.put('/sample/:userType',loginUser,userController.userLevel)
 
 
 module.exports = router;
