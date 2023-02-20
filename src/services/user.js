@@ -77,49 +77,7 @@ exports.uploadImage = async (payload) => {
   };
 };
 
-// exports.userLevel = async (userType, payload) => {
-//   const learnerPayload = {
-//     education: payload.education,
-//     domain: payload.domain,
-//     scope: payload.scope,
-//   };
-//   const interPayload = {
-//     education: payload.education,
-//     jobStatus: payload.jobStatus,
-//     futureInterest: payload.futureInterest,
-//   };
-//   const enterprisePayload = {
 
-//     education: payload.education,
-//     enterpriseName: payload.enterpriseName,
-//     enterpriseSize: payload.enterpriseSize,
-//   };
-//   const startupPayload = {
-//     education: payload.education,
-//     startupName: payload.startupName,
-//     startupSize: payload.startupSize,
-//   };
-//   switch (userType) {
-//     case "learner":
-//       user = await userRepo.userLevel(payload.userId, learnerPayload);
-//       break;
-//     case "intermediate":
-//       user = await userRepo.userLevel(payload.userId, interPayload);
-//       break;
-//     case "professional":
-//       if (payload.professionalType === "enterpise") {
-//         user = await userRepo.userLevel(payload.userId, enterprisePayload);
-//       }
-//       if (payload.professionalType === "startup") {
-//         user = await userRepo.userLevel(payload.userId, startupPayload);
-//       }
-//       break;
-//   }
-
-//   return {
-//     success: true,
-//   };
-// };
 exports.userLevel = async (userType, payload) => {
   const payloads = {
     userType:userType,

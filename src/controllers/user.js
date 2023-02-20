@@ -40,7 +40,6 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 
 exports.createPost = catchAsync(async (req, res, next) => {
   const payload = {
-    // userId: req.body.userId,
     user: req.user._id,
     file: req.body.file,
     postType: req.body.postType,
