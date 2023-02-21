@@ -8,13 +8,14 @@ exports.createPost =async (postType, payload)=>{
         description:  payload.description,
     }
 
-    const values = 
-        postType == "Job" ? [`salary`] :
-        postType == "Service"|| "Product" ? [`price`] :
-        postType == "Course" ? [`fee`] :
-        postType == "Help" ? [`help`] :
-        postType == "Article" ? [`article`] :
-        postType == "Idea" && [`idea`] 
+    let values = []; 
+          postType == "Job" && values.push('salary') 
+          postType == "Service" && values.push('price') 
+          postType == "Product" && values.push('price') 
+          postType == "Course" && values.push('fee') 
+          postType == "Help" && values.push('help') 
+          postType == "Article" && values.push('article') 
+          postType == "Idea" && values.push('idea') 
 
 const dynamicPayload = {
     [postType]: values.reduce((prev, current)=>{
