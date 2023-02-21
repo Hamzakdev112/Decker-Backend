@@ -1,53 +1,32 @@
-const userModel=require('../models/schema/user')
-const imageModel=require('../models/schema/image')
+const userModel = require('../models/schema/user');
+const generalModel = require('../models/schema/postsSchema/generalPost');
 
-
-exports.create=async(payload)=>{
-    return userModel.create(payload)
-    
-}
-
-
-exports.findByEmail = async (email) => {
-    return userModel
-      .findOne({
-        email,
-      })
-      .lean();
+exports.createUser = (payload) => {
+    return userModel.create(payload) 
   };
 
-  exports.findByPassword = async (password) => {
-    return userModel
-      .findOne({
-        password,
-      })
-      .lean();
+  
+exports.loginUser =async (payload) => {
+    const user = await userModel.findOne({email: payload.email}) 
+    if(!user) return {success:false, message: "Wrong Credentials"}
+   const Comparedpassword =  await user.passwordCompare(payload.password)
+    if(!Comparedpassword) return {success:false, message: "Wrong Credentials"}
+  const token = user.generateToken()
+  return {token, success:true}
   };
 
-exports.UploadImage = async(createpayload) => {
-  //console.log(createpayload.image);
-  return userModel.findByIdAndUpdate(createpayload.userID, {
-    image:  createpayload.image
-    
+  exports.getAllUsers = async () => {
+    const usersArray = []
+    const users = await userModel.find()
+    usersArray.push(...users)
+    const userswithPosts =  await Promise.all(
+    usersArray.map(async(user)=>{
+    const userWithPost = {...user._doc, post: []}
+    const posts = await generalModel.find({userId: user._id})
+    userWithPost.post.push(...posts.map((p)=>p._id))
+    return userWithPost
+        })
+    )
+    return userswithPosts
   }
-
-)}
-exports.userLevel = async (id,payload) =>{
-  return userModel.findByIdAndUpdate(id,payload)
-}
-
-/* exports.uploadImage= async (createPayload) => {
-  const results = await imageModel.create(createPayload);
-
-} */
-
-/* exports.save = async (createPayload) => {
-  const imageBio = new imageModel({
-    image : {
-        public_id: result.public_id,
-        url: result.url
-    }
-}); 
-const results = await imageBio.save();
-}
-return uimodel.save() */
+  

@@ -1,68 +1,60 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const createUserSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
+const userSchema = new mongoose.Schema({
 
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
+    firstName: {
+        type: String,
+        required: [true, 'Please enter your first name']
+    },
 
-  gender: {
-    type: String,
-    requierd: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  },
-  userType :{
-    type:String
-  },
-  education:{
-    type:String
-  },
-  domain:{
-    type:String
-  },
-  reason:{
-    type:String
-  },
-  
-  jobStatus:{
-    type:Boolean
-  },
-  futureInterest:{
-    type:String
-  },
-  enterpriseName:{
-    type:String
-  },
-  enterpriseSize:{
-    type:String
-  },
-  startupName:{
-    type:String
-  },
-  startupSize:{
-    type:String
-  }
-});
+    lastName: {
+        type: String,
+        required: [true, 'Please enter your last name']
+    },
+    email: {
+        type: String,
+        required: [true, 'Please enter your email'],
+        unique: [true]
+    },
 
-const createUser = new mongoose.model("User", createUserSchema);
+    gender: {
+        type: String,
+        required: [true, 'Please enter your gender']
+    },
+    password: {
+        type: String,
+        required: [true, 'Please enter your password']
 
-module.exports = createUser;
+    },
+    phone: {
+        type: String,
+        required: [true, 'Please enter your phone']
+    },
+})
+
+//HASING PASSWORD
+userSchema.pre("save", async function (next) {
+    if (!this.isModified('password')) {
+        next()
+    }
+    this.password = await bcrypt.hash(this.password, 10)
+})
+
+//GENERATING AUTH TOKEN
+
+userSchema.methods.generateToken = function () {
+        return jwt.sign({id: this._id}, process.env.JWT_SECRET)
+}
+
+
+//COMPARING HASHED PASSWORD
+
+userSchema.methods.passwordCompare =async function (enteredPassword){
+    return await bcrypt.compare(enteredPassword, this.password)
+    
+   }
+   
+
+module.exports = mongoose.model('User', userSchema)

@@ -1,39 +1,47 @@
-const { createProductPost, createJobPost }  = require('../repositories/post')
-
+const {createProductPost,createJobPost,createCoursePost,createServicePost,createHelpPost,createArticlePost,createGeneralPost,createIdeaPost}  = require('../repositories/post')
 
 exports.createPost =async (postType, payload)=>{
+    const commonPayload ={
+        userId: payload.userId,
+        postType: postType,
+        title:  payload.title,   
+        description:  payload.description,
+    }
 
-    if(postType === "job"){
-        const createPayload = {
-            title: payload.title,
-            description: payload.description,
-            userId: payload.userId,
-            salary: payload.salary
-        }
+    const values = 
+        postType == "Job" ? [`salary`] :
+        postType == "Service"|| "Product" ? [`price`] :
+        postType == "Course" ? [`fee`] :
+        postType == "Help" ? [`help`] :
+        postType == "Article" ? [`article`] :
+        postType == "Idea" && [`idea`] 
 
-      const post = await createJobPost(createPayload)
-       return {
+const dynamicPayload = {
+    [postType]: values.reduce((prev, current)=>{
+        prev[current] = payload[current]
+        return prev
+    }, {})
+} 
+
+
+    const createPayload = {
+         ...commonPayload,
+         ...dynamicPayload[postType]
+
+         }
+    const post =  await eval(`create${postType}Post`)(createPayload)
+          await createGeneralPost({
+        userId: payload.userId,
+     [postType.toLowerCase()]:  {
+         postType,
+         postId: post._id
+     },
+    })
+    return {
         success:true,       
         post
-    }
-    }
-    if(postType === "product"){
-        const createPayload = {
-            title: payload.title,
-            description: payload.description,
-            userId: payload.userId,
-            price: payload.price
-        }
-       const post = await createProductPost(createPayload)
-       return {
-        success:true,       
-        post
-    }
     }
  
-
-
-   
     }
 
 
