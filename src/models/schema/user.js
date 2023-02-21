@@ -32,6 +32,42 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter your phone']
     },
+    image: {
+        type: String,
+      },
+      userType :{
+        type:String
+      },
+      education:{
+        type:String
+      },
+      domain:{
+        type:String
+      },
+      reason:{
+        type:String
+      },
+      
+      jobStatus:{
+        type:Boolean
+      },
+      futureInterest:{
+        type:String
+      },
+      enterpriseName:{
+        type:String
+      },
+      enterpriseSize:{
+        type:String
+      },
+      startupName:{
+        type:String
+      },
+      startupSize:{
+        type:String
+      }
+}, {
+    timestamps: true
 })
 
 //HASING PASSWORD

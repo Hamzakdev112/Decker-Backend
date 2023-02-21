@@ -13,5 +13,6 @@ const userModel = require("../models/schema/user");
     const user = await userModel.findById(data.id);
     if(!user) return res.status(404).json({ error: "You're not authorized" });
     req.user = user._id;
+    req.email = user.email
     next();
 });

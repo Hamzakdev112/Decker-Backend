@@ -15,6 +15,20 @@ exports.loginUser =async (payload) => {
   return {token, success:true}
   };
 
+  exports.uploadImage = async(createpayload) => {
+    //console.log(createpayload.image);
+    return userModel.findByIdAndUpdate(createpayload.userID, {
+      image:  createpayload.image
+      
+    }
+  
+  )}
+
+  exports.userLevel = async (id,payload) =>{
+    return userModel.findByIdAndUpdate(id,payload)
+  }
+  
+
   exports.getAllUsers = async () => {
     const usersArray = []
     const users = await userModel.find()
