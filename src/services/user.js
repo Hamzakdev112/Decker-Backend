@@ -77,10 +77,9 @@ exports.uploadImage = async (payload) => {
   };
 };
 
-
 exports.userLevel = async (userType, payload) => {
   const payloads = {
-    userType:userType,
+    userType: userType,
     learner: {
       education: payload.education,
       domain: payload.domain,

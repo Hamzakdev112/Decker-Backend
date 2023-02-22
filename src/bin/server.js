@@ -1,30 +1,33 @@
-
-const express=require('express')
-const app=express()
+const express = require("express");
+const app = express();
 const port = 4500;
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const route = require("../Routes/user");
+const routePayment = require("../Routes/payment");
+const bodyParser = require("body-parser");
 
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
-// const routes = require('./routes');
-const route = require('../Routes/user')
-const routePayment = require ("../Routes/payment")
-app.use(express.json())
-app.use(cookieParser())
+app.use(
+  session({
+    secret: "my-secret-key",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-app.use(express.urlencoded({ extended: true }))
-require('../bootstrap/index')
-// const router=express.Router()
-// const multer=require('multer')
-// const userController=require('../controllers/user')
-app.use(route)
-app.use(routePayment)
-app.use(cors())
+require("../bootstrap/index");
 
-//Routes
-// app.post('/post',userController.createPost)
+app.use(route);
+app.use(routePayment);
 
-app.listen(port,()=>{
+app.use(cors());
 
-    console.log(`server listening on ${port} `)
-})
+app.listen(port, () => {
+  console.log(`server listening on ${port} `);
+});
