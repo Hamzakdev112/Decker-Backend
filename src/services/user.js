@@ -1,8 +1,5 @@
 const { createUser, loginUser, getAllUsers, uploadImage, userLevel }  = require('../repositories/user')
 
-
-
-
 exports.createUser =async (payload)=>{
 
     const createPayload = {
@@ -34,7 +31,6 @@ exports.createUser =async (payload)=>{
       user
   }
 
-  }
 
   exports.uploadImage = async (payload) => {
     const createpayload = {

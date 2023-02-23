@@ -2,12 +2,21 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+
+ 
 const userSchema = new mongoose.Schema({
+  googleId:{
+    type: String,
+  },
+  displayName:{
+    type:String
+  },
 
     firstName: {
         type: String,
         required: [true, 'Please enter your first name']
     },
+
 
     lastName: {
         type: String,
