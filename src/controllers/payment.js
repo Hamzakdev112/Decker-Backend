@@ -5,11 +5,12 @@ const stripe = require("stripe")(
 );
 
 exports.createPayment = catchAsync(async (req, res, next) => {
+  console.log(req.user)
   const payload = {
-    user: req.user._id,
+    user: req.user,
     amount: req.body.amount,
     description: req.body.description,
-    email:req.user.email
+    email:req.email
   };
 
   try {

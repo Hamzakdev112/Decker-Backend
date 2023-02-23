@@ -1,4 +1,3 @@
-const express = require("express");
 const cloudinary = require("cloudinary").v2;
 const path = require("path");
 const multer = require("multer");
