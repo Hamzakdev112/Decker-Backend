@@ -42,12 +42,11 @@ const uploadToCloudinaryMiddleware = (req, res, next) => {
         return;
       }
 
-      req.body.imageURL = result.secure_url
+      req.body.imageURL = result.secure_url;
 
       next();
     });
   });
 };
-
 
 module.exports = uploadToCloudinaryMiddleware;
