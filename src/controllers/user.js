@@ -1,6 +1,5 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require('../services/user')
-
 // REGISTER A USER
 exports.createUser = catchAsync( async(req, res, next)=>{
     const payload = req.body

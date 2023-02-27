@@ -1,4 +1,4 @@
-const {createProductPost,createJobPost,createCoursePost,createServicePost,createHelpPost,createArticlePost,createGeneralPost,createIdeaPost}  = require('../repositories/post')
+const {createProductPost,createJobPost,createCoursePost,createServicePost,createHelpPost,createArticlePost,createGeneralPost,createIdeaPost,sharePost}  = require('../repositories/post')
 
 exports.createPost =async (postType, payload)=>{
     const commonPayload ={
@@ -17,7 +17,7 @@ exports.createPost =async (postType, payload)=>{
           postType == "Article" && values.push('article') 
           postType == "Idea" && values.push('idea') 
 
-const dynamicPayload = {
+const dynamicPayload = { 
     [postType]: values.reduce((prev, current)=>{
         prev[current] = payload[current]
         return prev
@@ -45,4 +45,6 @@ const dynamicPayload = {
  
     }
 
-
+exports.sharePost=async(payload)=>{
+    return await sharePost(payload)
+}

@@ -19,11 +19,25 @@ const courseSchema =new mongoose.Schema({
         type:String,
         required: true
     },
+    sharedBy:{
+        type:mongoose.Types.ObjectId,
+        required:false
+    },
     fee: {
         type:Number,
         required: [true, "Please enter fee"]
 
     },
+ 
+    comments:{
+        type:Number,
+        default:0
+    },
+    likes:{
+        type:Number,
+        default:0
+    }
+    
 },{
     timestamps:true
 } )

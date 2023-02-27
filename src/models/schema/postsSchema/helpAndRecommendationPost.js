@@ -23,6 +23,45 @@ const helpAndRecommendationSchema =new mongoose.Schema({
         required: [true, "Please enter job help"]
 
     },
+    sharedBy:{
+        type:mongoose.Types.ObjectId,
+        required:false
+    },
+ 
+    comments:{
+        type:Number,
+        default:0
+    },
+    reacts:{
+        like:{
+            type:Number,
+            default:0
+        },
+        haha:{
+            type:Number,
+            default:0
+        },
+        cry:{
+            type:Number,
+            default:0
+        },
+        care:{
+            type:Number,
+            default:0
+        },
+        love:{
+            type:Number,
+            default:0
+        },
+        wow:{
+            type:Number,
+            default:0
+        },
+        angry:{
+            type:Number,
+            default:0
+        },           
+    }
 },{
     timestamps:true
 } )

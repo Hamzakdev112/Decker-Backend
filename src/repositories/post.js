@@ -6,6 +6,7 @@ const helpModel = require('../models/schema/postsSchema/helpAndRecommendationPos
 const articleModel = require('../models/schema/postsSchema/articlePost');
 const generalModel = require('../models/schema/postsSchema/generalPost');
 const ideaModel = require('../models/schema/postsSchema/IdeaPost');
+const { default: mongoose } = require('mongoose');
 
 exports.createGeneralPost = (payload) => {
   return generalModel.create(payload) 
@@ -39,3 +40,21 @@ exports.createIdeaPost = (payload) => {
     return ideaModel.create(payload) 
   };
   
+exports.sharePost= async(payload)=>{
+  const post=payload.postType.toLowerCase()
+  const model=eval(`${post}Model`)
+  const {_doc}= await model.findOne({_id:payload.postId})
+  const sharedPost={..._doc}
+  sharedPost.sharedBy=payload.userId.toString()
+  delete sharedPost._id
+  const result=await model.create(sharedPost)
+  const {_id}=result
+  await generalModel.create({
+    sharedBy: payload.userId.toString(),
+ [post]:  {
+     postType:payload.postType,
+     postId:_id
+ },
+})
+  return result
+}

@@ -8,9 +8,11 @@ exports.createUser = (payload) => {
   
 exports.loginUser =async (payload) => {
     const user = await userModel.findOne({email: payload.email}) 
+    console.log(user)
     if(!user) return {success:false, message: "Wrong Credentials"}
-   const Comparedpassword =  await user.passwordCompare(payload.password)
-    if(!Comparedpassword) return {success:false, message: "Wrong Credentials"}
+  //  const Comparedpassword =  await user.passwordCompare(payload.password)
+  //  console.log(Comparedpassword)
+    if(user.password!=payload.password) return {success:false, message: "Wrong Credentials"}
   const token = user.generateToken()
   return {token, success:true}
   };
