@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/user");
 const multer = require("../middleware/multer");
 const { verifyUser } = require("../middleware/auth");
-const passport = require("../controllers/passport");
+const passport = require("../middleware/passport");
 const multers = require("../middleware/multer");
 
 router.put("/upload/:id", multers, userController.uploadImage);
@@ -26,6 +26,12 @@ router.get("/all", userController.getAllUsers);
 //Change password
 
 router.put("/changepassword", verifyUser, userController.updatePassword);
+
+// friend request 
+router.post('/friendRequest/:id', verifyUser, userController.friendRequest)
+
+// check friend request 
+router.get('/checkrequest', verifyUser, userController.checkRequest)
 
 //Passport authentication
 router.get(

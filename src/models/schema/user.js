@@ -25,7 +25,12 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your email"],
       unique: [true],
     },
-
+    verified:{
+      type:Boolean
+    },
+    verificationId:{
+      type:String
+    },
     gender: {
       type: String,
       required: [true, "Please enter your gender"],

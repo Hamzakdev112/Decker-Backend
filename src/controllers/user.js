@@ -1,12 +1,12 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require("../services/user");
-const User = require("../models/schema/user");
-const bcrypt = require("bcrypt");
-
+const friendRequest = require("../models/schema/friendRequest")
 // REGISTER A USER
+
 exports.createUser = catchAsync(async (req, res, next) => {
   const payload = req.body;
   res.body = await userService.createUser(payload);
+
   res.json(res.body);
 });
 
@@ -72,3 +72,24 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 
+// friend request
+exports.friendRequest= catchAsync( async(req, res, next)=>{
+  const payload = {
+     myId: req.user,
+     userId: req.params.id // friend which we want to send request
+ }
+ console.log(payload);
+ res.body = await userService.friendRequest(payload)
+     res.json(res.body)
+ })
+
+// check request
+exports.checkRequest = catchAsync( async(req, res, next)=>{
+  console.log(req.user);
+  const id = req.user.toString()
+  const payload = {
+    Id : id
+  } 
+  res.body = await userService.checkRequest(payload)
+  res.json(res.body)
+})

@@ -1,7 +1,7 @@
 const userModel = require("../models/schema/user");
 const generalModel = require("../models/schema/postsSchema/generalPost");
 const { findById } = require("../models/schema/user");
-
+const friendRequest = require("../models/schema/friendRequest")
 exports.createUser = (payload) => {
   return userModel.create(payload);
 };
@@ -42,6 +42,20 @@ exports.getAllUsers = async () => {
   return userswithPosts;
 };
 
-exports.findById = async(id) =>{
-  return userModel.findById(id)
+exports.findById = async (id) => {
+  return userModel.findById(id);
+};
+exports.findOne = async (id) => {
+  return userModel.findOne({
+    googleId: id,
+  });
+};
+// friend request sent
+exports.friendRequest = async (createpayload) => {
+  return friendRequest.create({ "userId_sendrequest": createpayload.myId,  userId_reciever: createpayload.userId,})
+}
+
+exports.checkRequest = async (payload) => {
+
+return friendRequest.find({"userId_reciever": payload.Id})
 }

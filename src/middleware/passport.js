@@ -1,7 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/schema/user");
-
+const userRepo = require("../repositories/user");
 passport.use(
   new GoogleStrategy(
     {
@@ -11,8 +11,7 @@ passport.use(
       callbackURL: "http://localhost:4500/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      // return profile
-      User.findOne({ googleId: profile.id }).then((existingUser) => {
+      userRepo.findOne(profile.id).then((existingUser) => {
         if (existingUser) {
           done(null, existingUser);
         } else {
