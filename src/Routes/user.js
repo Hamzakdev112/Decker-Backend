@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/user");
+const bodyParser = require('body-parser');
+const userController = require('../controllers/user');
+const {verifyUser} = require('../middleware/auth')
+// const {sendOTP}=require('../controllers/firebase')
 const multer = require("../middleware/multer");
-const { verifyUser } = require("../middleware/auth");
 const passport = require("../middleware/passport");
 
 
@@ -20,6 +22,8 @@ router.put("/updateprofile/:id", multer, userController.uploadImage);
 router.put("/level/:userType", verifyUser, userController.userLevel);
 
 //GET ALL USERS
+router.get('/all', userController.getAllUsers )
+module.exports=router
 router.get("/all", userController.getAllUsers);
 
 //Change password
