@@ -4,7 +4,6 @@ const {
   getAllUsers,
   uploadImage,
   userLevel,
-  updatePassword,
   findById,
 } = require("../repositories/user");
 

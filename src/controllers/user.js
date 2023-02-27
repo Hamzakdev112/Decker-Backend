@@ -1,12 +1,12 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require("../services/user");
-const User = require("../models/schema/user");
-const bcrypt = require("bcrypt");
 
 // REGISTER A USER
+
 exports.createUser = catchAsync(async (req, res, next) => {
   const payload = req.body;
   res.body = await userService.createUser(payload);
+
   res.json(res.body);
 });
 
@@ -70,5 +70,4 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   res.body = await userService.updatePassword(payload);
   return res.json(res.body);
 });
-
 
