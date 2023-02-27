@@ -1,7 +1,19 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require("../services/user");
-const friendRequest = require("../models/schema/friendRequest")
+const friendRequest = require("../models/schema/friendRequest");
+const fileUpload = require("express-fileupload");
+
+
+const express = require('express')
+const app = express()
+var bodyParser = require('body-parser');
+app.use(fileUpload ({
+  useTempFiles: true
+  
+}))
 // REGISTER A USER
+
+
 
 exports.createUser = catchAsync(async (req, res, next) => {
   const payload = req.body;
@@ -32,9 +44,11 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 
 exports.uploadImage = catchAsync(async (req, res, next) => {
   const id = req.params.id;
+  const imageUrl = req.imageURL;
+  console.log(id);
   const payload = {
     userId: id,
-    file: req.imageURL,
+    file: req.body.imageURL,
   };
   console.log(payload);
   res.body = await userService.uploadImage(payload);
@@ -71,25 +85,24 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   return res.json(res.body);
 });
 
-
 // friend request
-exports.friendRequest= catchAsync( async(req, res, next)=>{
+exports.friendRequest = catchAsync(async (req, res, next) => {
   const payload = {
-     myId: req.user,
-     userId: req.params.id // friend which we want to send request
- }
- console.log(payload);
- res.body = await userService.friendRequest(payload)
-     res.json(res.body)
- })
+    myId: req.user,
+    userId: req.params.id, // friend which we want to send request
+  };
+  console.log(payload);
+  res.body = await userService.friendRequest(payload);
+  res.json(res.body);
+});
 
 // check request
-exports.checkRequest = catchAsync( async(req, res, next)=>{
+exports.checkRequest = catchAsync(async (req, res, next) => {
   console.log(req.user);
-  const id = req.user.toString()
+  const id = req.user.toString();
   const payload = {
-    Id : id
-  } 
-  res.body = await userService.checkRequest(payload)
-  res.json(res.body)
-})
+    Id: id,
+  };
+  res.body = await userService.checkRequest(payload);
+  res.json(res.body);
+});
