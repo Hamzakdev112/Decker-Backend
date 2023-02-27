@@ -5,6 +5,8 @@ const {
   uploadImage,
   userLevel,
   findById,
+  friendRequest,
+  checkRequest
 } = require("../repositories/user");
 
 exports.createUser = async (payload) => {
@@ -117,9 +119,22 @@ exports.updatePassword = async (payload) => {
     };
   }
   user.password = payload.newPassword;
-  await user.save()
+  await user.save();
   return {
-    success:true,
-    message:"Password changed successfully"
-  }
+    success: true,
+    message: "Password changed successfully",
+  };
+};
+
+exports.friendRequest = async (payload) => {
+  const createpayload = {
+    myId: payload.myId,
+    userId: payload.userId,
+  };
+  const data = await friendRequest(createpayload);
+  return data;
+};
+exports.checkRequest = async (payload) => {
+  const data = await checkRequest(payload);
+  return data;
 };

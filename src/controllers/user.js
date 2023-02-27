@@ -1,6 +1,6 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require("../services/user");
-
+const friendRequest = require("../models/schema/friendRequest")
 // REGISTER A USER
 
 exports.createUser = catchAsync(async (req, res, next) => {
@@ -71,3 +71,25 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   return res.json(res.body);
 });
 
+
+// friend request
+exports.friendRequest= catchAsync( async(req, res, next)=>{
+  const payload = {
+     myId: req.user,
+     userId: req.params.id // friend which we want to send request
+ }
+ console.log(payload);
+ res.body = await userService.friendRequest(payload)
+     res.json(res.body)
+ })
+
+// check request
+exports.checkRequest = catchAsync( async(req, res, next)=>{
+  console.log(req.user);
+  const id = req.user.toString()
+  const payload = {
+    Id : id
+  } 
+  res.body = await userService.checkRequest(payload)
+  res.json(res.body)
+})
