@@ -5,19 +5,6 @@ exports.createUser = (payload) => {
   return userModel.create(payload);
 };
 
-<<<<<<< HEAD
-  
-exports.loginUser =async (payload) => {
-    const user = await userModel.findOne({email: payload.email}) 
-    console.log(user)
-    if(!user) return {success:false, message: "Wrong Credentials"}
-  //  const Comparedpassword =  await user.passwordCompare(payload.password)
-  //  console.log(Comparedpassword)
-    if(user.password!=payload.password) return {success:false, message: "Wrong Credentials"}
-  const token = user.generateToken()
-  return {token, success:true}
-  };
-=======
 exports.loginUser = async (payload) => {
   const user = await userModel.findOne({ email: payload.email });
   if (!user) return { success: false, message: "Wrong Credentials" };
@@ -27,7 +14,6 @@ exports.loginUser = async (payload) => {
   const token = user.generateToken();
   return { token, success: true };
 };
->>>>>>> origin/main
 
 exports.uploadImage = async (createpayload) => {
   //console.log(createpayload.image);

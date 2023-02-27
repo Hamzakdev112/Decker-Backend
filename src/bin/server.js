@@ -3,18 +3,11 @@ const app = express();
 const port = 4500;
 const cors = require('cors');
 require('../bootstrap/index')
-const postRoute = require('../Routes/post')
-const userRoute = require('../Routes/user')
-
 const commentRoute = require('../Routes/comments')
 const likeRoute = require('../Routes/likes')
 var bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload')
-const CookieParser = require('cookie-parser');
-const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const bodyParser = require("body-parser");
+const session=require('express-session')
 require("../bootstrap/index");
 const postRoute = require("../Routes/post");
 const userRoute = require("../Routes/user");
@@ -47,9 +40,6 @@ app.use(bodyParser.json());
 
 
 //Routes
-
-app.use('/api/posts', postRoute)
-app.use('/api/users', userRoute)
 app.use('/api/comments',commentRoute)
 app.use('/api/likes',likeRoute)
 app.use("/api/posts", postRoute);

@@ -1,6 +1,5 @@
 const { catchAsync } = require("../helpers/request");
 const userService = require('../services/user')
-const userService = require("../services/user");
 const friendRequest = require("../models/schema/friendRequest");
 const fileUpload = require("express-fileupload");
 

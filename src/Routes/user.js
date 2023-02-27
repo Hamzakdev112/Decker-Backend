@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
 const bodyParser = require('body-parser');
 const userController = require('../controllers/user');
-const multer = require('../middleware/multer');
 const {verifyUser} = require('../middleware/auth')
 // const {sendOTP}=require('../controllers/firebase')
-const userController = require("../controllers/user");
 const multer = require("../middleware/multer");
-const { verifyUser } = require("../middleware/auth");
 const passport = require("../middleware/passport");
 
 
