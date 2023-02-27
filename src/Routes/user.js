@@ -4,9 +4,8 @@ const userController = require("../controllers/user");
 const multer = require("../middleware/multer");
 const { verifyUser } = require("../middleware/auth");
 const passport = require("../middleware/passport");
-const multers = require("../middleware/multer");
 
-router.put("/upload/:id", multers, userController.uploadImage);
+
 
 router.put("/sample/:userType", verifyUser, userController.userLevel);
 

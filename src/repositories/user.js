@@ -1,7 +1,6 @@
 const userModel = require("../models/schema/user");
 const generalModel = require("../models/schema/postsSchema/generalPost");
-const { findById } = require("../models/schema/user");
-const friendRequest = require("../models/schema/friendRequest")
+const friendRequest = require("../models/schema/friendRequest");
 exports.createUser = (payload) => {
   return userModel.create(payload);
 };
@@ -50,12 +49,23 @@ exports.findOne = async (id) => {
     googleId: id,
   });
 };
-// friend request sent
-exports.friendRequest = async (createpayload) => {
-  return friendRequest.create({ "userId_sendrequest": createpayload.myId,  userId_reciever: createpayload.userId,})
-}
+(exports.createGoogleUser = async (profile) => {
+  const user = new userModel({
+    googleId: profile.id,
+    displayName: profile.displayName,
+    email: profile.emails[0].value,
+  });
+  const newUser = await user.save();
+  return newUser;
+}),
+  // friend request sent
+  (exports.friendRequest = async (createpayload) => {
+    return friendRequest.create({
+      userId_sendrequest: createpayload.myId,
+      userId_reciever: createpayload.userId,
+    });
+  });
 
 exports.checkRequest = async (payload) => {
-
-return friendRequest.find({"userId_reciever": payload.Id})
-}
+  return friendRequest.find({ userId_reciever: payload.Id });
+};

@@ -34,11 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(CookieParser());
 
 app.use(bodyParser.json());
-app.use(
-  fileUpload({
-    useTempFiles: true,
-  })
-);
+
 
 //Routes
 

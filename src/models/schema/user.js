@@ -13,12 +13,12 @@ const userSchema = new mongoose.Schema(
 
     firstName: {
       type: String,
-      required: [true, "Please enter your first name"],
+      // required: [true, "Please enter your first name"],
     },
 
     lastName: {
       type: String,
-      required: [true, "Please enter your last name"],
+      // required: [true, "Please enter your last name"],
     },
     email: {
       type: String,
@@ -33,15 +33,15 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "Please enter your gender"],
+      // required: [true, "Please enter your gender"],
     },
     password: {
       type: String,
-      required: [true, "Please enter your password"],
+      // required: [true, "Please enter your password"],
     },
     phone: {
       type: String,
-      required: [true, "Please enter your phone"],
+      // required: [true, "Please enter your phone"],
     },
     image: {
       type: String,
