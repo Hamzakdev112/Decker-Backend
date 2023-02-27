@@ -10,10 +10,9 @@ require('../bootstrap/index')
 const postRoute = require('../Routes/post')
 const userRoute = require('../Routes/user')
 const paymentRoute = require('../Routes/payment')
-var bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload')
 const CookieParser = require('cookie-parser');
-
+const chatRoute = require ("../Routes/chat")
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,8 +29,8 @@ app.use(
 
 require("../bootstrap/index");
 
-app.use(route);
-app.use(routePayment);
+// app.use(route);
+// app.use(routePayment);
 
 app.use(cors());
 
@@ -56,7 +55,7 @@ app.use(fileUpload ({
 app.use('/api/posts', postRoute)
 app.use('/api/users', userRoute)
 app.use('/api/payment', paymentRoute)
-
+app.use("/api/chat",chatRoute)
 
 
 app.listen(port, () => {
