@@ -4,9 +4,13 @@ const mongoose=require('mongoose');
 const generalSchema =new mongoose.Schema({
 
     userId: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref:"user"
     },
-
+    sharedBy:{
+        type: mongoose.Types.ObjectId,
+        ref:"user"
+    },
     article:{
         postType: String,
         postId:{

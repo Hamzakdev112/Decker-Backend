@@ -19,11 +19,24 @@ const ideaSchema =new mongoose.Schema({
         type:String,
         required: true
     },
+    sharedBy:{
+        type:mongoose.Types.ObjectId,
+        required:false
+    },
+ 
     idea: {
         type:String,
         required: [true, "Please enter your idea"]
 
     },
+    comments:{
+        type:Number,
+        default:0
+    },
+    likes:{
+        type:Number,
+        default:0
+    }
 },{
     timestamps:true
 } )

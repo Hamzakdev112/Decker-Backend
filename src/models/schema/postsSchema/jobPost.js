@@ -24,6 +24,19 @@ const jobSchema =new mongoose.Schema({
         required: [true, "Please enter job salary"]
 
     },
+    sharedBy:{
+        type:mongoose.Types.ObjectId,
+        required:false
+    },
+ 
+    comments:{
+        type:Number,
+        default:0
+    },
+    likes:{
+        type:Number,
+        default:0
+    }
 },{
     timestamps:true
 } )
