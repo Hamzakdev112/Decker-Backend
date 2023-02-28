@@ -15,7 +15,4 @@ router.post("/message/:receiverId", verifyUser, chatController.createMessage);
 //DELETE A MESSAGE
 router.delete("/message/:messageId", verifyUser, chatController.deleteMessage);
 
-
-
-
 module.exports = router;

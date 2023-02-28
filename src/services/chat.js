@@ -1,5 +1,6 @@
 const chatRepo = require('../repositories/chat')
 const conversationModel = require('../models/schema/conversation')
+const { getList } = require('../bootstrap/redis')
 
 
 
@@ -44,7 +45,12 @@ exports.getConversation = async (payload) =>{
         success: false,
         message: "This conversation does not exist"
     }
-    const messages =await chatRepo.getMessagesByConversationId(conversation._id,5, payload.page)
+    let messages;
+     messages = await getList('messages')
+     messages =  messages.map((m)=>JSON.parse(m))
+     if(messages.length == 0){
+         messages =await chatRepo.getMessagesByConversationId(conversation._id,5, payload.page)
+     }
     return {
         success:true,
         conversation,
@@ -64,3 +70,8 @@ exports.getAllConversations = async (payload) =>{
         conversations,
     }
     }
+
+
+
+
+

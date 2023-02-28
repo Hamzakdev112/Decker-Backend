@@ -22,6 +22,7 @@ exports.createConversation = async(payload)=>{
 }
 
 exports.getConversation = async(payload, )=>{
+
     return conversationModel.findOne({
         $and :[
             {members:{ $all:[payload.user,payload.receiverId]} }, {_id: payload.conversationId}
