@@ -1,19 +1,16 @@
 const { catchAsync } = require("../helpers/request");
-const userService = require('../services/user')
+const userService = require("../services/user");
 const friendRequest = require("../models/schema/friendRequest");
 const fileUpload = require("express-fileupload");
 
-
-const express = require('express')
-const app = express()
-var bodyParser = require('body-parser');
-app.use(fileUpload ({
-  useTempFiles: true
-  
-}))
-// REGISTER A USER
-
-
+const express = require("express");
+const app = express();
+var bodyParser = require("body-parser");
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 
 exports.createUser = catchAsync(async (req, res, next) => {
   const payload = req.body;
@@ -22,7 +19,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
   res.json(res.body);
 });
 
-//LOGIN A USER
 exports.loginUser = catchAsync(async (req, res, next) => {
   const payload = req.body;
   res.body = await userService.loginUser(payload);
@@ -40,8 +36,6 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   }
 });
 
-//UPDATE PROFILE PICTURE
-
 exports.uploadImage = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const imageUrl = req.imageURL;
@@ -55,8 +49,6 @@ exports.uploadImage = catchAsync(async (req, res, next) => {
   return res.json(res.body);
 });
 
-//UPDATE USER LEVEL
-
 exports.userLevel = catchAsync(async (req, res, next) => {
   const { userType } = req.params;
 
@@ -67,8 +59,6 @@ exports.userLevel = catchAsync(async (req, res, next) => {
   res.body = await userService.userLevel(userType, payload);
   return res.json(res.body);
 });
-
-//GET ALL USERS
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   res.body = await userService.getAllUsers();
@@ -85,7 +75,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   return res.json(res.body);
 });
 
-// friend request
 exports.friendRequest = catchAsync(async (req, res, next) => {
   const payload = {
     myId: req.user,
@@ -96,7 +85,6 @@ exports.friendRequest = catchAsync(async (req, res, next) => {
   res.json(res.body);
 });
 
-// check request
 exports.checkRequest = catchAsync(async (req, res, next) => {
   console.log(req.user);
   const id = req.user.toString();

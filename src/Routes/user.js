@@ -46,7 +46,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect("/");
+    res.redirect("/");// right now this does not exist . Will have to enter some valid endpoint when front end is created
   }
 );
 

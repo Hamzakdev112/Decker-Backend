@@ -1,7 +1,6 @@
 const service = require('../services/comment')
 const { catchAsync } = require('../helpers/request');
-const express = require('express')
-const app = express()
+
 exports.createComment = catchAsync(async (req, res, next) => {
   const payload = {
     postType:req.params.postType,

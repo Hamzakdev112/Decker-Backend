@@ -1,12 +1,5 @@
 const commentModel = require('../models/schema/comment');
-const productModel = require('../models/schema/postsSchema/productPost');
-const jobModel = require('../models/schema/postsSchema/jobPost');
-const courseModel = require('../models/schema/postsSchema/coursePost');
-const serviceModel = require('../models/schema/postsSchema/servicePost');
-const helpModel = require('../models/schema/postsSchema/helpAndRecommendationPost');
-const articleModel = require('../models/schema/postsSchema/articlePost');
-const generalModel = require('../models/schema/postsSchema/generalPost');
-const ideaModel = require('../models/schema/postsSchema/IdeaPost');
+
 exports.createComment = async(payload) => {
   try{
     await commentModel.create(payload)
