@@ -7,18 +7,15 @@ const userSchema = new mongoose.Schema(
     googleId: {
       type: String,
     },
-    displayName: {
-      type: String,
-    },
-
+    googleAccessToken: String,
     firstName: {
       type: String,
-      // required: [true, "Please enter your first name"],
+      required: [true, "Please enter your first name"],
     },
 
     lastName: {
       type: String,
-      // required: [true, "Please enter your last name"],
+      required: [true, "Please enter your last name"],
     },
     email: {
       type: String,
@@ -26,11 +23,10 @@ const userSchema = new mongoose.Schema(
       unique: [true],
     },
     verified:{
-      type:Boolean
+      type:Boolean,
+      default: false
     },
-    verificationId:{
-      type:String
-    },
+   
     gender: {
       type: String,
       // required: [true, "Please enter your gender"],

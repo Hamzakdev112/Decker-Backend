@@ -8,7 +8,6 @@ const multer = require("../middleware/multer");
 const passport = require("../middleware/passport");
 
 
-
 router.put("/sample/:userType", verifyUser, userController.userLevel);
 
 //Auth
@@ -20,6 +19,11 @@ router.put("/updateprofile/:id", multer, userController.uploadImage);
 
 //UPDATE USER LEVEL
 router.put("/level/:userType", verifyUser, userController.userLevel);
+
+
+//VERIFY OTP
+router.put('/verifyotp', verifyUser, userController.verifyOtp)
+
 
 //GET ALL USERS
 router.get('/all', userController.getAllUsers )

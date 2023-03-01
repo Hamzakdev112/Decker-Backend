@@ -2,6 +2,7 @@ const { catchAsync } = require("../helpers/request");
 const userService = require("../services/user");
 const friendRequest = require("../models/schema/friendRequest");
 const fileUpload = require("express-fileupload");
+const crypto = require('crypto')
 
 const express = require("express");
 const app = express();
@@ -13,11 +14,23 @@ app.use(
 );
 
 exports.createUser = catchAsync(async (req, res, next) => {
-  const payload = req.body;
+  const generate = crypto.randomInt(1000000);
+  const otp = generate.toString().padStart(6, '0');
+  const payload = {otp, ...req.body};
+
   res.body = await userService.createUser(payload);
+  await userService.generateOtp({otp:otp,user:res.body.user._id})
+
 
   res.json(res.body);
 });
+
+exports.verifyOtp = catchAsync(async (req,res,next)=>{
+  const {user} = req
+  const payload = {user, ...req.body}
+  res.body = await userService.verifyOtp(payload)
+  res.json(res.body)
+})
 
 exports.loginUser = catchAsync(async (req, res, next) => {
   const payload = req.body;

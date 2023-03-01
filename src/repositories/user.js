@@ -1,9 +1,24 @@
 const userModel = require("../models/schema/user");
+const otpModel = require("../models/schema/otp");
 const generalModel = require("../models/schema/postsSchema/generalPost");
 const friendRequest = require("../models/schema/friendRequest");
 exports.createUser = (payload) => {
   return userModel.create(payload);
 };
+
+
+exports.findUserById = async(payload)=>{
+  return userModel.findById(payload)
+}
+
+exports.generateOtp = async(payload)=>{
+  return otpModel.create(payload)
+}
+exports.getOtp = async(payload)=>{
+  return otpModel.findOne({
+    user: payload
+  })
+}
 
 exports.loginUser = async (payload) => {
   const user = await userModel.findOne({ email: payload.email });
@@ -49,15 +64,21 @@ exports.findOne = async (id) => {
     googleId: id,
   });
 };
-(exports.createGoogleUser = async (profile) => {
+
+(exports.createGoogleUser = async (payload) => {
   const user = new userModel({
-    googleId: profile.id,
-    displayName: profile.displayName,
-    email: profile.emails[0].value,
+    googleId: payload.profile.id,
+    email: payload.profile.emails[0].value,
+    image: payload.profile.photos[0].value,
+    firstName: payload.profile.name.givenName,
+    lastName: payload.profile.name.familyName,
+    googleAccessToken: payload.accessToken,
   });
   const newUser = await user.save();
   return newUser;
 }),
+
+
   // friend request sent
   (exports.friendRequest = async (createpayload) => {
     return friendRequest.create({

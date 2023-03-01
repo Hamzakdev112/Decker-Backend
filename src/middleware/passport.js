@@ -11,12 +11,15 @@ passport.use(
       callbackURL: "http://localhost:4500/api/users/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
+      const payload = {
+        profile: profile,
+        accessToken: accessToken,
+      };
       userRepo.findOne(profile.id).then((existingUser) => {
-        
         if (existingUser) {
           done(null, existingUser);
         } else {
-          userRepo.createGoogleUser(profile);
+          userRepo.createGoogleUser(payload);
         }
       });
     }
