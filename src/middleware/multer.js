@@ -43,9 +43,8 @@ const uploadToCloudinaryMiddleware = (req, res, next) => {
         return;
       }
 
-      req.body.imageURL = result.secure_url
-      const a = req.body.imageURL
-     console.log(a);
+      req.image = result.secure_url
+  
 
       next();
     });
