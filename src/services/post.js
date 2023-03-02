@@ -1,31 +1,35 @@
 const {
-  createProductPost,
-  createJobPost,
-  createCoursePost,
-  createServicePost,
-  createHelpPost,
-  createArticlePost,
+  createPost,
   createGeneralPost,
-  createIdeaPost,
   sharePost,
 } = require("../repositories/post");
 
 exports.createPost = async (postType, payload) => {
   const commonPayload = {
+    title: payload.title,
     userId: payload.userId,
     postType: postType,
-    title: payload.title,
-    description: payload.description,
   };
 
   let values = [];
-  postType == "Job" && values.push("salary");
+  postType == "Job" &&
+    values.push(
+      "companyName",
+      "city",
+      "salary",
+      "experience",
+      "numberOfPositions",
+      "jobType",
+      "jobNature",
+      "urgentHiring"
+    );
   postType == "Service" && values.push("price");
-  postType == "Product" && values.push("price");
-  postType == "Course" && values.push("fee");
-  postType == "Help" && values.push("help");
-  postType == "Article" && values.push("article");
-  postType == "Idea" && values.push("idea");
+  postType == "Product" && values.push("price","description","image");
+  postType == "Course" && values.push("fee","description","image","video");
+  postType == "Help" && values.push("description","image");
+  postType == "Article" && values.push("description","image");
+  postType == "Idea" && values.push("description","idea","budget");
+  postType == "Project" && values.push("description","skills","paymentMethod","MinRange","MaxRange","deadline","Currency")
 
   const dynamicPayload = {
     [postType]: values.reduce((prev, current) => {
@@ -38,7 +42,7 @@ exports.createPost = async (postType, payload) => {
     ...commonPayload,
     ...dynamicPayload[postType],
   };
-  const post = await eval(`create${postType}Post`)(createPayload);
+  const post = await createPost(createPayload, postType);
   await createGeneralPost({
     userId: payload.userId,
     [postType.toLowerCase()]: {

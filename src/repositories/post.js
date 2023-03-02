@@ -1,43 +1,20 @@
-const productModel = require("../models/schema/postsSchema/productPost");
-const jobModel = require("../models/schema/postsSchema/jobPost");
-const courseModel = require("../models/schema/postsSchema/coursePost");
-const serviceModel = require("../models/schema/postsSchema/servicePost");
-const helpModel = require("../models/schema/postsSchema/helpAndRecommendationPost");
-const articleModel = require("../models/schema/postsSchema/articlePost");
-const generalModel = require("../models/schema/postsSchema/generalPost");
-const ideaModel = require("../models/schema/postsSchema/IdeaPost");
+const ProductModel = require("../models/schema/postsSchema/productPost");
+const JobModel = require("../models/schema/postsSchema/jobPost");
+const CourseModel = require("../models/schema/postsSchema/coursePost");
+const ServiceModel = require("../models/schema/postsSchema/servicePost");
+const HelpModel = require("../models/schema/postsSchema/helpAndRecommendationPost");
+const ArticleModel = require("../models/schema/postsSchema/articlePost");
+const IdeaModel = require("../models/schema/postsSchema/ideaPost");
+const GeneralModel = require("../models/schema/postsSchema/generalPost");
 
 exports.createGeneralPost = (payload) => {
-  return generalModel.create(payload);
+  return GeneralModel.create(payload);
 };
 
-exports.createProductPost = (payload) => {
-  return productModel.create(payload);
+exports.createPost = (payload, postType) => {
+  return eval(`${postType}Model`).create(payload);
 };
 
-exports.createJobPost = (payload) => {
-  return jobModel.create(payload);
-};
-
-exports.createCoursePost = (payload) => {
-  return courseModel.create(payload);
-};
-
-exports.createServicePost = (payload) => {
-  return serviceModel.create(payload);
-};
-
-exports.createHelpPost = (payload) => {
-  return helpModel.create(payload);
-};
-
-exports.createArticlePost = (payload) => {
-  return articleModel.create(payload);
-};
-
-exports.createIdeaPost = (payload) => {
-  return ideaModel.create(payload);
-};
 
 exports.sharePost = async (payload) => {
   const post = payload.postType.toLowerCase();

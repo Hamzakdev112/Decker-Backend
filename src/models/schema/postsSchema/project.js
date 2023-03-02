@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const articleSchema = new mongoose.Schema(
+const projectSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Please enter job title"],
+      required: [true, "Please enter project name"],
     },
     description: {
       type: String,
-      required: [true, "Please enter article content"],
+      required: [true, "Please enter project description"],
     },
     userId: {
       type: mongoose.Types.ObjectId,
@@ -18,9 +18,25 @@ const articleSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
+    skills: {
       type: String,
-      // required: [true, "Please enter article"]
+      required: [true, "Please enter skills required"],
+    },
+    paymentMethod: {
+      type: String,
+      required: [true, "Please enter how do you want to pay"],
+    },
+    MinRange: {
+      type: Number,
+    },
+    MaxRange: {
+      type: Number,
+    },
+    deadline: {
+      type: Date,
+    },
+    Currency: {
+      type: String,
     },
     sharedBy: {
       type: mongoose.Types.ObjectId,
@@ -41,4 +57,4 @@ const articleSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Article_Posts", articleSchema);
+module.exports = mongoose.model("Project_Posts", projectSchema);

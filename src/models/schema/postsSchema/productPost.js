@@ -24,6 +24,9 @@ const productSchema =new mongoose.Schema({
         type:Number,
         required: [true, "Please enter product price"]
     },
+    image:{
+        type:String
+    },
     views: {
         type:Number,
         default: 0
