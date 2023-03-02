@@ -11,4 +11,5 @@ router.post('/share/:postType/:postId',verifyUser,postController.sharePost)
 
 
 
+
 module.exports = router;
