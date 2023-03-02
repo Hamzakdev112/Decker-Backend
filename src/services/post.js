@@ -12,17 +12,7 @@ exports.createPost = async (postType, payload) => {
   };
 
   let values = [];
-  postType == "Job" &&
-    values.push(
-      "companyName",
-      "city",
-      "salary",
-      "experience",
-      "numberOfPositions",
-      "jobType",
-      "jobNature",
-      "urgentHiring"
-    );
+  postType == "Job" && values.push("companyName", "city", "salary", "experience", "numberOfPositions", "jobType", "jobNature", "urgentHiring");
   postType == "Service" && values.push("price");
   postType == "Product" && values.push("price","description","image");
   postType == "Course" && values.push("fee","description","image","video");

@@ -46,9 +46,24 @@ exports.generateOtp = async (payload)=>{
 exports.verifyOtp = async (payload)=>{
   const user = await findUserById(payload.user)
   const otp = await getOtp(payload.user)
-  if(otp.otp !== payload.otp) return {success:false, message:'wrong otp'}
+  if(otp.otp !== payload.otp){
+    await otp.updateOne({
+      $inc :{retries: -1}
+    })
+    if(otp.retries === 0){
+      await otp.deleteOne()
+      return {success:false, message: "regenerate otp"}
+    }
+
+    return {success:false, message:'wrong otp'}
+  } 
+
+  user.updateOne({
+    verified: true
+  },{
+    runValidators:false
+  })
   await otp.deleteOne()
-  
 
   return {
     success:true,
