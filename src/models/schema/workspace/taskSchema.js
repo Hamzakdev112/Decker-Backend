@@ -40,7 +40,7 @@ const taskSchema = new mongoose.Schema({
     watchers: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Users',
-        required:[true, 'must have an assignee'],
+        // required:[true, 'must have an assignee'],
     },
 },{
     timestamps:true
