@@ -9,7 +9,8 @@ const {
   userLevel,
   findById,
   friendRequest,
-  checkRequest
+  checkRequest,
+  getMe
 } = require("../repositories/user");
 const client = require('twilio')('ACffd087b5f8b99d726a821d0987dfcc73', 'b3ec0e668ca185c9ced87acf1b4aa50a')
 
@@ -155,6 +156,17 @@ exports.getAllUsers = async () => {
   const users = await getAllUsers();
   return {
     users,
+  };
+};
+
+exports.getMe = async (payload) => {
+  const  userDetails = await getMe(payload.user);
+  if(!userDetails)return {success:false, status:400, message:'error occured'}
+  const {password, ...user} = userDetails._doc
+  return {
+    success:true,
+    status:200,
+    user,
   };
 };
 

@@ -6,10 +6,11 @@ const taskSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required:[true, "Please enter your workspace name"]
+        required:[true, "Please enter task name"]
     },
     description: {
         type: String,
+        required:[true, "Please enter description"]
     },
     attachments: {
         type:Array,
@@ -17,15 +18,15 @@ const taskSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required:true
+        default: 'IN PROGRESS'
     },
     priority: {
         type: String,
-        required: true
+        required: true  
     },
     dueDate: {
         type: Date,
-        
+            
     },
     assigner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -40,7 +41,6 @@ const taskSchema = new mongoose.Schema({
     watchers: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Users',
-        required:[true, 'must have an assignee'],
     },
 },{
     timestamps:true

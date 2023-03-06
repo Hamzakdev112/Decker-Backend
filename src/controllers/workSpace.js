@@ -13,7 +13,7 @@ res.status(res.body.status).json(res.body)
 
 exports.getSpaces = catchAsync(async (req,res,next)=>{
 
-const user = req.params.id
+const {user} = req
 const payload = {user}
 res.body = await workSpaceService.getSpaces(payload)
 res.status(res.body.status).json(res.body)
@@ -22,21 +22,38 @@ res.status(res.body.status).json(res.body)
 
 exports.getSpaceById = catchAsync(async (req,res,next)=>{
 
-const {user: creator} = req
+const {user} = req
 const {spaceId} = req.params
-const payload = {...req.body, creator, spaceId}
+const payload = {...req.body, user, spaceId}
 
 res.body = await workSpaceService.getSpaceById(payload)
 res.status(res.body.status).json(res.body)
 })
+
+exports.getMembers = catchAsync(async (req,res,next)=>{
+
+const {user} = req
+const {spaceId} = req.params
+const payload = {...req.body, user, spaceId}
+
+res.body = await workSpaceService.getMembers(payload)
+res.status(res.body.status).json(res.body)
+})
+
+
+
+
 exports.getTasks = catchAsync(async (req,res,next)=>{
 
 const {user} = req
 const {spaceId} = req.params
-const payload = {...req.body, user, spaceId} 
-
+const payload = {user, spaceId} 
 res.body = await workSpaceService.getTasks(payload)
-res.status(res.body.status).json(res.body)
+res.body.status ? res
+.status(res.body.status)
+.json(res.body)
+:
+res.json(res.body)
 })
 
 
@@ -50,3 +67,30 @@ const payload = {...req.body, creator, spaceId}
 res.body = await workSpaceService.createTask(payload)
 res.json(res.body)
 })
+
+exports.deleteTask = catchAsync(async (req,res,next)=>{
+
+const {user: assigner} = req
+const { spaceId } = req.params
+const payload = {...req.body, assigner, spaceId}
+
+// res.body = await workSpaceService.createTask(payload)
+res.json(res.body)
+})
+
+exports.updateTask = catchAsync(async (req, res, next) => {
+    const { user: assigner } = req;
+    const { taskId } = req.params;
+    const payload = { ...req.body, assigner, taskId };
+    res.body = await workSpaceService.updateTask(payload);
+    res.json(res.body);
+  });
+
+  exports.getSingleTask = catchAsync(async (req,res,next)=>{
+    const {user} = req;
+    const {taskId} = req.params;
+    const {spaceId} = req.params
+    const payload = {user,taskId,spaceId}
+    res.body = await workSpaceService.getSingleTask(payload)
+    res.json(res.body);
+  })

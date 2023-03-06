@@ -55,6 +55,9 @@ exports.getAllUsers = async () => {
   );
   return userswithPosts;
 };
+exports.getMe = async (payload) => {
+  return  await userModel.findById(payload);
+};
 
 exports.findById = async (id) => {
   return userModel.findById(id);

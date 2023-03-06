@@ -9,6 +9,7 @@ exports.createSpace = async(payload)=>{
         members:[payload.creator, payload.members],
         admins:[payload.creator, payload.admin],
         moderators:payload.moderators,
+        columns:payload.columns
     })
     return {
         status:200,
@@ -18,7 +19,6 @@ exports.createSpace = async(payload)=>{
 
 }
 exports.getSpaces = async(payload)=>{
-
     const spaces = await workSpaceRepo.getSpaces({
         members:{$in: [payload.user]},
     })
@@ -35,7 +35,23 @@ exports.getSpaceById = async(payload)=>{
     const space = await workSpaceRepo.getSpaceById({
         $and:[
             {_id: payload.spaceId,},
-            {creator: payload.creator}
+            {members: {$in: [payload.user]}}
+        ]
+    })
+    if(!space) return {status:404, success:false, message: "space not found"}
+    return {
+        status:200,
+        success:true,
+        space
+    }
+
+}
+
+exports.getMembers = async(payload)=>{
+    const space = await workSpaceRepo.getMembers({
+        $and:[
+            {_id: payload.spaceId,},
+            {members: {$in: [payload.user]}}
         ]
     })
     if(!space) return {status:404, success:false, message: "space not found"}
@@ -50,7 +66,7 @@ exports.getTasks = async(payload)=>{
     const tasks = await workSpaceRepo.getTasks({
             spaceId: payload.spaceId
     })
-    if(!tasks) return {status:404, success:false, message: "no tasks found"}
+    if(!tasks || tasks.length <= 0) return {status:404, success:false, message: "no tasks found"}
     return {
         status:200,
         success:true,
@@ -64,6 +80,7 @@ exports.createTask = async(payload)=>{
     const space = await workSpaceRepo.createTask({
         spaceId: payload.spaceId,
         name: payload.name,
+        description:payload.description,
         assigner: payload.creator,
         assignee: payload.assignee,
         status: payload.status,
@@ -77,3 +94,37 @@ exports.createTask = async(payload)=>{
     }
 
 }
+
+exports.updateTask = async (payload) => {
+    const task = await workSpaceRepo.getTask(payload);
+  
+    if (task.assigner.toString() !== payload.assigner.toString()) {
+      return {
+        status: 401,
+        success: false,
+        message: "Unauthorized to update",
+      };
+    } else {
+      const updatedTask = await task.updateOne(payload, {
+        runValidators: false,
+      });
+      return {
+        status: 200,
+        success: true,
+        message: "Updated successfully",
+      };
+    }
+  };
+
+  exports.getSingleTask = async (payload) => {
+    const task = await workSpaceRepo.getTask(payload);
+    if (task.spaceId.toString() !== payload.spaceId.toString()) {
+      return {
+        status: 404,
+        success: false,
+        message: "task not found",
+      };
+    } else {
+      return task;
+    }
+  };
