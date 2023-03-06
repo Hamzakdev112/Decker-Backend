@@ -5,7 +5,7 @@ const postService = require('../services/post')
 exports.createPost = catchAsync( async(req, res, next)=>{
 
     const { postType } = req.params
-    const payload = {...req.body, userId: req.user}
+    const payload = {...req.body, userId: req.user,image:req.image}
 
     res.body = await postService.createPost(postType, payload)
     res.json(res.body)
