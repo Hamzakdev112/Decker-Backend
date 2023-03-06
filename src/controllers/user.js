@@ -48,6 +48,16 @@ exports.loginUser = catchAsync(async (req, res, next) => {
     res.status(500).json(res.body);
   }
 });
+exports.logout = catchAsync(async (req, res, next) => {
+  
+
+  res.clearCookie('token', {httpOnly:true})
+
+  res.body = {success:true, message:'logged out'}
+res.json(res.body)
+
+
+});
 
 exports.uploadImage = catchAsync(async (req, res, next) => {
   const id = req.params.id;
@@ -78,6 +88,16 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
   res.status(200).json(res.body);
 });
+
+exports.getMe = catchAsync(async (req, res, next) => {
+
+  const {user} = req
+  const payload = {user}
+  res.body = await userService.getMe(payload);
+
+  res.status(res.body.status).json(res.body);
+});
+
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const payload = {
     oldPassword: req.body.oldPassword,
