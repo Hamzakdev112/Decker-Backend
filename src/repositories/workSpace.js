@@ -28,6 +28,17 @@ exports.getTasks = (payload)=>{
 exports.createTask = (payload)=>{
     return TaskModel.create(payload)
 }
-exports.getTask = (payload) => {
+exports.getTaskById = (payload) => {
     return TaskModel.findById(payload.taskId)
+  };
+exports.updateTask = async(payload,assigner,field, taskId) => {
+    return  TaskModel.findOneAndUpdate(
+        {
+            $and:[
+                {_id:taskId,} ,
+                {assigner,} 
+            ]
+        },
+        {[field]: payload[field]},
+        {new:true,fields:{[field]:1}})
   };

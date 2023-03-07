@@ -79,10 +79,10 @@ res.json(res.body)
 })
 
 exports.updateTask = catchAsync(async (req, res, next) => {
-    const { user: assigner } = req;
-    const { taskId } = req.params;
-    const payload = { ...req.body, assigner, taskId };
-    res.body = await workSpaceService.updateTask(payload);
+    const { user:assigner } = req;
+    const { taskId,field } = req.params;
+    const payload = { ...req.body };
+    res.body = await workSpaceService.updateTask(payload, assigner,field, taskId);
     res.json(res.body);
   });
 

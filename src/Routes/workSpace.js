@@ -21,7 +21,7 @@ router.delete('/tasks/delete/:taskId', verifyUser, workSpaceController.deleteTas
 // get all tasks using space id 
 router.get('/tasks/all/:spaceId', verifyUser, workSpaceController.getTasks)
 //update task
-router.put("/tasks/update/:taskId", verifyUser, workSpaceController.updateTask);
+router.put("/tasks/update/:field/:taskId", verifyUser, workSpaceController.updateTask);
 // get single task
 router.get("/tasks/singletask/:spaceId/:taskId",verifyUser,workSpaceController.getSingleTask)
 
