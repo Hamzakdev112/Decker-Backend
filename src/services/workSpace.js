@@ -95,25 +95,25 @@ exports.createTask = async(payload)=>{
 
 }
 
-exports.updateTask = async (payload) => {
-    const task = await workSpaceRepo.getTask(payload);
-  
-    if (task.assigner.toString() !== payload.assigner.toString()) {
-      return {
-        status: 401,
-        success: false,
-        message: "Unauthorized to update",
-      };
-    } else {
-      const updatedTask = await task.updateOne(payload, {
-        runValidators: false,
-      });
-      return {
-        status: 200,
-        success: true,
-        message: "Updated successfully",
-      };
-    }
+exports.updateTask = async (payload, assigner,field, taskId) => {
+    const task = await workSpaceRepo.getTask(payload,assigner, field, taskId);
+    return task
+    // if (task.assigner != assigner.toString()) {
+    //   return {
+    //     status: 401,
+    //     success: false,
+    //     message: "Unauthorized to update",
+    //   };
+    // } else {
+    //   const updatedTask = await workSpaceRepo.updateTask(taskId, payload)
+    //   return {
+    //     status: 200,
+    //     success: true,
+    //     updatedTask
+    //     // updatedTask:{
+    //     //     status:updatedTask.status}
+    //   }  };
+    
   };
 
   exports.getSingleTask = async (payload) => {
