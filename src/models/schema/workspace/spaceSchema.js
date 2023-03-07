@@ -9,14 +9,12 @@ const spaceSchema = new mongoose.Schema({
         type: String,
     },
     columns:{
-        type:[Object],
-        default:[
-            { field: "name", headerName: "Name"},
-            { "field": "assignee", "headerName": "Assignee", "width": 150 },
-            { "field": "dueDate", "headerName": "Due Date", "width": 150 },
-            { "field": "priority", "headerName": "Priority", "width": 150 },
-            { "field": "status", "headerName": "Status", "width": 150 },
-        ]
+        name:{type:Boolean ,default:true},
+        dueDate:{type:Boolean ,default:true},
+        priority:{type:Boolean ,default:true},
+        name:{type:Boolean },
+        name:{type:Boolean ,default:true},
+
     },
     creator: {
         type: String,
@@ -30,10 +28,6 @@ const spaceSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
         required: [true, "there must be atleast 1 admin"]
-    },
-    moderators: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User',
     },
     
 },{

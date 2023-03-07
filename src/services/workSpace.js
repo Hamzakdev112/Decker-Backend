@@ -73,8 +73,6 @@ exports.getTasks = async(payload)=>{
         tasks
     }
 }
-
-
 exports.createTask = async(payload)=>{
 
     const space = await workSpaceRepo.createTask({
