@@ -24,6 +24,7 @@ exports.createPost = async (postType, payload) => {
   const dynamicPayload = {
     [postType]: values.reduce((prev, current) => {
       prev[current] = payload[current];
+      
       return prev;
     }, {}),
   };

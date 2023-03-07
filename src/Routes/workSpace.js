@@ -1,9 +1,9 @@
-const router = require('express').Router();
-const {verifyUser} = require('../middleware/auth')
-const workSpaceController = require('../controllers/workSpace')
-
+const router = require("express").Router();
+const { verifyUser } = require("../middleware/auth");
+const workSpaceController = require("../controllers/workSpace");
 
 //Create a Space
+
 router.post('/spaces/new',verifyUser, workSpaceController.createSpace)
 //GET ALL WORKSPACES
 router.get('/spaces/all',verifyUser, workSpaceController.getSpaces)
@@ -26,5 +26,16 @@ router.put("/tasks/update/:field/:taskId", verifyUser, workSpaceController.updat
 router.get("/tasks/singletask/:spaceId/:taskId",verifyUser,workSpaceController.getSingleTask)
 
 
+//Create a task
+router.post("/tasks/new/:spaceId", verifyUser, workSpaceController.createTask);
+// get all tasks using space id
+router.get("/tasks/all/:spaceId", verifyUser, workSpaceController.getTasks);
+router.put("/tasks/update/:taskId", verifyUser, workSpaceController.updateTask);
+router.get("/tasks/singletask/:spaceId/:taskId",verifyUser,workSpaceController.getSingleTask)
+router.delete(
+  "/tasks/delete/:taskId",
+  verifyUser,
+  workSpaceController.deleteTask
+);
 
-module.exports = router
+module.exports = router;
