@@ -14,7 +14,8 @@ router.get('/spaces/members/:spaceId',verifyUser, workSpaceController.getMembers
 //Add or delete Columns
 router.put('/spaces/columns/update/:column/:spaceId', verifyUser, workSpaceController.updateColumns)
 
-
+//add a column to space
+router.put("/spaces/columns/:spaceId",verifyUser,workSpaceController.addColumns)
 
 //Create a task
 router.post('/tasks/new/:spaceId', verifyUser, workSpaceController.createTask)
@@ -39,5 +40,6 @@ router.delete(
   verifyUser,
   workSpaceController.deleteTask
 );
+
 
 module.exports = router;

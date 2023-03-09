@@ -71,6 +71,8 @@ exports.getMembers = async(payload)=>{
     }
 
 }
+
+
 exports.getTasks = async(payload)=>{
     const tasks = await workSpaceRepo.getTasks(payload)
     if(!tasks || tasks.length <= 0) return {status:404, success:false, message: "no tasks found"}
@@ -104,6 +106,12 @@ exports.updateTask = async (payload, assigner,field, taskId) => {
     const task = await workSpaceRepo.updateTask(payload,assigner, field, taskId);
     return task
   };
+
+  exports.addColumns = async(payload) =>{
+    const space = await workSpaceRepo.addColumns(payload)
+    return space
+  }
+  
 
   exports.getSingleTask = async (payload) => {
     const task = await workSpaceRepo.getTaskById(payload);
