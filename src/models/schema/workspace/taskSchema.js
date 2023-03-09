@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
     spaceId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref:'Spaces',
         required:[true, "Please enter your workspace id"]
     },
     name: {
@@ -30,17 +31,17 @@ const taskSchema = new mongoose.Schema({
     },
     assigner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
+        ref: 'User',
         required:[true, 'must have an assigner'],
     },
     assignee: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
+        ref: 'User',
         required:[true, 'must have an assignee'],
     },
     watchers: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Users',
+        ref: 'User',
     },
 },{
     timestamps:true

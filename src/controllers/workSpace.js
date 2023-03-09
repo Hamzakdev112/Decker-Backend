@@ -40,7 +40,15 @@ res.body = await workSpaceService.getMembers(payload)
 res.status(res.body.status).json(res.body)
 })
 
+exports.updateColumns = catchAsync(async (req,res)=>{
+  const {user} = req
+  const {spaceId, column} = req.params
+  const payload = {user, spaceId, column}
+  res.body = await workSpaceService.updateColumns(payload)
+  res.status(res.body.status).json(res.body)
 
+
+})
 
 
 exports.getTasks = catchAsync(async (req,res,next)=>{

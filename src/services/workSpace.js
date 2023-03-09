@@ -1,10 +1,10 @@
 const workSpaceRepo = require('../repositories/workSpace')
 
-
 exports.createSpace = async(payload)=>{
 
     const space = await workSpaceRepo.createSpace({
         name: payload.name,
+        description:payload.description,
         creator: payload.creator,
         members:[payload.creator, payload.members],
         admins:[payload.creator, payload.admin],
@@ -46,6 +46,15 @@ exports.getSpaceById = async(payload)=>{
     }
 
 }
+exports.updateColumns = async(payload)=>{
+    const column = await workSpaceRepo.updateColumns(payload)
+    return {
+        status:200,
+        success:true,
+        columns:column._doc.columns,
+        message:column.message
+    }
+}
 
 exports.getMembers = async(payload)=>{
     const space = await workSpaceRepo.getMembers({
@@ -63,9 +72,7 @@ exports.getMembers = async(payload)=>{
 
 }
 exports.getTasks = async(payload)=>{
-    const tasks = await workSpaceRepo.getTasks({
-            spaceId: payload.spaceId
-    })
+    const tasks = await workSpaceRepo.getTasks(payload)
     if(!tasks || tasks.length <= 0) return {status:404, success:false, message: "no tasks found"}
     return {
         status:200,

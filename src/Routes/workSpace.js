@@ -11,6 +11,8 @@ router.get('/spaces/all',verifyUser, workSpaceController.getSpaces)
 router.get('/spaces/single/:spaceId',verifyUser, workSpaceController.getSpaceById)
 //Get all members of space
 router.get('/spaces/members/:spaceId',verifyUser, workSpaceController.getMembers)
+//Add or delete Columns
+router.put('/spaces/columns/update/:column/:spaceId', verifyUser, workSpaceController.updateColumns)
 
 
 
