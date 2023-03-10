@@ -53,7 +53,9 @@ exports.updateColumns =async (payload)=>{
 exports.getTasks = async(payload)=>{
      const space = await SpaceModel.findById(payload.spaceId).lean(); 
     const columns = space.columns.join(' ')
-    return  await TaskModel.find({ spaceId: payload.spaceId }).select(columns); 
+    columns ["name", "_id", "status"]
+    return  await TaskModel.find({ spaceId: payload.spaceId })
+    // .select(`columns createdAt`); 
 
 }
 
