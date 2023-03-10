@@ -13,7 +13,7 @@ const spaceSchema = new mongoose.Schema({
     },
     columns:{
         type:Array,
-        default: ['name', 'dueDate', 'priority', 'assignee', 'status', 'timer']
+        default: ['name', 'dueDate', 'priority', 'assignee', 'status', 'timer'],
     },
     creator: {
         type: String,
