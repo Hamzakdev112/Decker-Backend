@@ -3,8 +3,15 @@ const { verifyUser } = require("../middleware/auth");
 const workSpaceController = require("../controllers/workSpace");
 
 //Create a Space
-
 router.post('/spaces/new',verifyUser, workSpaceController.createSpace)
+//Invite Member to space
+router.put('/spaces/invite/:spaceId/:userId/:userEmail',verifyUser, workSpaceController.inviteMember)
+//Verify and add member
+router.put('/spaces/verify/:spaceId/:token',verifyUser, workSpaceController.verifyMember)
+
+
+
+
 //GET ALL WORKSPACES
 router.get('/spaces/all',verifyUser, workSpaceController.getSpaces)
 //Get a Space by Id
@@ -14,8 +21,6 @@ router.get('/spaces/members/:spaceId',verifyUser, workSpaceController.getMembers
 //Add or delete Columns
 router.put('/spaces/columns/update/:column/:spaceId', verifyUser, workSpaceController.updateColumns)
 
-//add a column to space
-router.put("/spaces/columns/:spaceId",verifyUser,workSpaceController.addColumns)
 
 //Create a task
 router.post('/tasks/new/:spaceId', verifyUser, workSpaceController.createTask)
@@ -28,18 +33,6 @@ router.put("/tasks/update/:field/:taskId", verifyUser, workSpaceController.updat
 // get single task
 router.get("/tasks/singletask/:spaceId/:taskId",verifyUser,workSpaceController.getSingleTask)
 
-
-//Create a task
-router.post("/tasks/new/:spaceId", verifyUser, workSpaceController.createTask);
-// get all tasks using space id
-router.get("/tasks/all/:spaceId", verifyUser, workSpaceController.getTasks);
-router.put("/tasks/update/:taskId", verifyUser, workSpaceController.updateTask);
-router.get("/tasks/singletask/:spaceId/:taskId",verifyUser,workSpaceController.getSingleTask)
-router.delete(
-  "/tasks/delete/:taskId",
-  verifyUser,
-  workSpaceController.deleteTask
-);
 
 
 module.exports = router;

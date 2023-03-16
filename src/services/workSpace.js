@@ -1,4 +1,6 @@
 const workSpaceRepo = require('../repositories/workSpace')
+const crypto = require('crypto')
+const sendEmail = require('../helpers/sendEmail')
 
 exports.createSpace = async(payload)=>{
 
@@ -18,6 +20,46 @@ exports.createSpace = async(payload)=>{
     }
 
 }
+
+
+exports.inviteMember = async(payload)=>{
+
+    const space = await workSpaceRepo.getSpaceForInvite(payload.spaceId)
+    const token = space.generateInviteToken(payload.userId)
+
+    const inviteUrl = `http://localhost:3000/spaces/invitation/${space._id}/${token}`
+    const text = `You are invited to join ${space.name}. By clicking the link you can join the work space \n\n\n ${inviteUrl}`
+    await sendEmail({
+        email:payload.userEmail,
+        subject: `Monster Invitation`,
+        text
+    })
+    await space.save({validateBeforeSave:false})
+    return {
+        success:true,
+        status:200,
+        space,
+        token
+    }
+}
+exports.verifyMember = async(payload)=>{
+
+    const token = crypto.createHash('sha256').update(payload.token).digest('hex')
+    const space = await workSpaceRepo.verifyMember(payload,token)
+    if(!space)return {success:false, status:500,message:'This token is either invalid or expired'}
+    return {
+        success:true,
+        status:200,
+        space,
+        token,
+        userId:payload.userId
+    }
+
+
+}
+
+
+
 exports.getSpaces = async(payload)=>{
     const spaces = await workSpaceRepo.getSpaces({
         members:{$in: [payload.user]},
@@ -75,7 +117,7 @@ exports.getMembers = async(payload)=>{
 
 exports.getTasks = async(payload)=>{
     const tasks = await workSpaceRepo.getTasks(payload)
-    if(!tasks || tasks.length <= 0) return {status:404, success:false, message: "no tasks found"}
+    if(!tasks || tasks.length <= 0) return {status:404, success:false, message: "No tasks found"}
     return {
         status:200,
         success:true,

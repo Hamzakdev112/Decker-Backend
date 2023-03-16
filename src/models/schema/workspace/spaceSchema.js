@@ -1,4 +1,12 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto')
+
+const InvitationSchema = new mongoose.Schema({
+    token:String,
+    userId:mongoose.Types.ObjectId
+})
+
+
 const spaceSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,9 +36,20 @@ const spaceSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, "there must be atleast 1 admin"]
     },
+    invites:[InvitationSchema]
     
 },{
     timestamps:true
 });
+
+
+spaceSchema.methods.generateInviteToken = function(userId){
+    const inviteLink = crypto.randomBytes(20).toString('hex')
+    const inviteToken = crypto.createHash('sha256').update(inviteLink).digest('hex')
+    this.invites?.push({token:inviteToken, userId}) 
+    return inviteLink
+
+}
+
 
 module.exports = new mongoose.model('Space', spaceSchema);

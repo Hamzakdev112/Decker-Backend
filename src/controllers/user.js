@@ -24,6 +24,13 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
   res.json(res.body);
 });
+exports.getUserByEmail = catchAsync(async (req, res, next) => {
+  const {email} = req.params
+  const payload = {email};
+  res.body = await userService.getUserByEmail(payload);
+
+  res.status(res.body.status).json(res.body);
+});
 
 exports.verifyOtp = catchAsync(async (req,res,next)=>{
   const {user} = req

@@ -43,6 +43,7 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         default:null,
     },
+    savedTimers:Object,
     watchers: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',

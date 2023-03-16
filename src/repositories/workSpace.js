@@ -11,6 +11,23 @@ exports.createSpace = (payload)=>{
 exports.getSpaceById = (payload)=>{
     return SpaceModel.findOne(payload)
 }
+exports.getSpaceForInvite = (payload)=>{
+    return SpaceModel.findById(payload).select('invites _id name')
+}
+exports.verifyMember = (payload,token)=>{
+    const inviteQuery = {userId:payload.userId, token }
+    return SpaceModel.findOneAndUpdate({
+        $and:[
+            {_id:payload.spaceId},
+            { invites: {$elemMatch: inviteQuery }}
+        ]
+    },{
+        $push:{members:payload.userId},
+        $pull: {invites:inviteQuery}
+    }, {
+        new:true
+    })
+}
 exports.getMembers = (payload)=>{
 
     return SpaceModel.findOne(payload).populate({
@@ -20,7 +37,7 @@ exports.getMembers = (payload)=>{
 
 }
 exports.getSpaces = (payload)=>{
-    return SpaceModel.find(payload)
+    return SpaceModel.find(payload).select('_id name')
 }
 exports.updateColumns =async (payload)=>{
     let space = await  SpaceModel.findOne({
@@ -47,15 +64,22 @@ exports.updateColumns =async (payload)=>{
                     return {...space, message:`${payload.column.charAt(0).toUpperCase() + payload.column.slice(1)} Added To Columns`}
                 }
     }
-
-
 }
 exports.getTasks = async(payload)=>{
-     const space = await SpaceModel.findById(payload.spaceId).lean(); 
-    const columns = space.columns.join(' ')
-    columns ["name", "_id", "status"]
-    return  await TaskModel.find({ spaceId: payload.spaceId })
-    // .select(`columns createdAt`); 
+     const space = await SpaceModel.findById(payload.spaceId); 
+     if(payload.search){
+         return  await TaskModel.find({
+        $and:[
+            { spaceId: payload.spaceId},
+            { name:{ $regex:payload.search, $options: "i"}},
+        ]    
+        })
+        .sort({createdAt:-1})
+        }
+        else{
+            return  await TaskModel.find({ spaceId: payload.spaceId })
+            .sort({createdAt:-1})
+        }
 
 }
 

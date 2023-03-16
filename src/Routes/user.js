@@ -29,6 +29,10 @@ router.put('/verifyotp', verifyUser, userController.verifyOtp)
 //GET ALL USERS
 router.get('/all', userController.getAllUsers )
 
+
+//GET User by email
+router.get('/byemail/:email', userController.getUserByEmail )
+
 //GET Logged IN user Details
 router.get('/me',verifyUser, userController.getMe )
 
