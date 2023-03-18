@@ -11,6 +11,12 @@ exports.findUserById = async(payload)=>{
   return userModel.findById(payload)
 }
 
+exports.getUserByEmail = async(payload)=>{
+  return userModel.findOne({
+    email:payload.email
+  })
+}
+
 exports.generateOtp = async(payload)=>{
   return otpModel.create(payload)
 }
@@ -54,6 +60,9 @@ exports.getAllUsers = async () => {
     })
   );
   return userswithPosts;
+};
+exports.getMe = async (payload) => {
+  return  await userModel.findById(payload);
 };
 
 exports.findById = async (id) => {

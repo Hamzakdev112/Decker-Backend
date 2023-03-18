@@ -9,7 +9,9 @@ const {
   userLevel,
   findById,
   friendRequest,
-  checkRequest
+  checkRequest,
+  getUserByEmail,
+  getMe
 } = require("../repositories/user");
 const client = require('twilio')('ACffd087b5f8b99d726a821d0987dfcc73', 'b3ec0e668ca185c9ced87acf1b4aa50a')
 
@@ -22,8 +24,6 @@ exports.createUser = async (payload) => {
     phone: payload.phone,
     password: payload.password,
   };
-
-
   const user = await createUser(createPayload);
   client.messages.create({
     from: '+12764962664',
@@ -41,6 +41,22 @@ exports.generateOtp = async (payload)=>{
     otp: payload.otp,
     user:payload.user
   })
+}
+
+exports.getUserByEmail = async (payload)=>{
+  const user = await getUserByEmail(payload)
+
+  if(!user)return {
+    success:false,
+    status:404,
+    message:'No user found with this email'
+  } 
+
+  return {
+    success:true,
+    status:200,
+    user
+  }
 }
 
 exports.verifyOtp = async (payload)=>{
@@ -155,6 +171,17 @@ exports.getAllUsers = async () => {
   const users = await getAllUsers();
   return {
     users,
+  };
+};
+
+exports.getMe = async (payload) => {
+  const  userDetails = await getMe(payload.user);
+  if(!userDetails)return {success:false, status:400, message:'error occured'}
+  const {password, ...user} = userDetails._doc
+  return {
+    success:true,
+    status:200,
+    user,
   };
 };
 

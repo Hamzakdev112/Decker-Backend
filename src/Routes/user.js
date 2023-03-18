@@ -13,6 +13,7 @@ router.put("/sample/:userType", verifyUser, userController.userLevel);
 //Auth
 router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
+router.get("/logout", userController.logout);
 
 //Update Profile Picture
 router.put("/updateprofile/:id", multer, userController.uploadImage);
@@ -27,8 +28,13 @@ router.put('/verifyotp', verifyUser, userController.verifyOtp)
 
 //GET ALL USERS
 router.get('/all', userController.getAllUsers )
-module.exports=router
-router.get("/all", userController.getAllUsers);
+
+
+//GET User by email
+router.get('/byemail/:email', userController.getUserByEmail )
+
+//GET Logged IN user Details
+router.get('/me',verifyUser, userController.getMe )
 
 //Change password
 

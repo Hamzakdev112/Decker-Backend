@@ -24,6 +24,13 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
   res.json(res.body);
 });
+exports.getUserByEmail = catchAsync(async (req, res, next) => {
+  const {email} = req.params
+  const payload = {email};
+  res.body = await userService.getUserByEmail(payload);
+
+  res.status(res.body.status).json(res.body);
+});
 
 exports.verifyOtp = catchAsync(async (req,res,next)=>{
   const {user} = req
@@ -47,6 +54,16 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   } else {
     res.status(500).json(res.body);
   }
+});
+exports.logout = catchAsync(async (req, res, next) => {
+  
+
+  res.clearCookie('token', {httpOnly:true})
+
+  res.body = {success:true, message:'logged out'}
+res.json(res.body)
+
+
 });
 
 exports.uploadImage = catchAsync(async (req, res, next) => {
@@ -78,6 +95,16 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
   res.status(200).json(res.body);
 });
+
+exports.getMe = catchAsync(async (req, res, next) => {
+
+  const {user} = req
+  const payload = {user}
+  res.body = await userService.getMe(payload);
+
+  res.status(res.body.status).json(res.body);
+});
+
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const payload = {
     oldPassword: req.body.oldPassword,
