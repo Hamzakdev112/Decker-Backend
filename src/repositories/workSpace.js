@@ -1,6 +1,6 @@
-const { default: mongoose } = require('mongoose')
 const SpaceModel = require('../models/schema/workspace/spaceSchema')
 const TaskModel = require('../models/schema/workspace/taskSchema')
+const UserModel = require('../models/schema/user')
 
 
 
@@ -8,8 +8,20 @@ exports.createSpace = (payload)=>{
     return SpaceModel.create(payload)
 }
 
+exports.getUserByEmail = async(payload)=>{
+    return UserModel.findOne({
+      email:payload.email
+    }).select('_id firstName lastName email')
+  }
+  
+
 exports.getSpaceById = (payload)=>{
-    return SpaceModel.findOne(payload)
+    return SpaceModel
+    .findOne(payload)
+    .populate({
+        path:'members',
+        select:'firstName lastName _id '
+    })
 }
 exports.getSpaceForInvite = (payload)=>{
     return SpaceModel.findById(payload).select('invites _id name')
@@ -74,11 +86,32 @@ exports.getTasks = async(payload)=>{
             { name:{ $regex:payload.search, $options: "i"}},
         ]    
         })
+        .populate([
+            {
+                path:'assignee',
+                select:'_id firstName lastName'
+            },
+            {
+                path:'assigner',
+                select:'_id firstName lastName'
+            }
+        ])
         .sort({createdAt:-1})
         }
         else{
             return  await TaskModel.find({ spaceId: payload.spaceId })
+            .populate([
+                {
+                    path:'assignee',
+                    select:'_id firstName lastName'
+                },
+                {
+                    path:'assigner',
+                    select:'_id firstName lastName'
+                }
+            ])
             .sort({createdAt:-1})
+
         }
 
 }

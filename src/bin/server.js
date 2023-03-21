@@ -3,17 +3,18 @@ const app = express();
 const port = 4500;
 const cors = require('cors');
 require('../bootstrap/index')
+var bodyParser = require('body-parser');
+const CookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+const session=require('express-session')
 const postRoute = require('../Routes/post')
 const userRoute = require('../Routes/user')
 const chatRoute = require('../Routes/chat')
 const workSpaceRoute = require('../Routes/workSpace')
 const paymentRoute = require('../Routes/payment')
-var bodyParser = require('body-parser');
-const CookieParser = require('cookie-parser');
 const commentRoute = require('../Routes/comments')
 const likeRoute = require('../Routes/likes')
-var bodyParser = require('body-parser');
-const session=require('express-session')
+const roadmapRoute = require('../Routes/roadmap')
 
 
 //MIDDLEWARES
@@ -42,6 +43,7 @@ app.use("/api/users", userRoute);
 app.use("/api/payment", paymentRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/workspace", workSpaceRoute);
+app.use("/api/roadmap", roadmapRoute);
 
 app.listen(port, () => {
   console.log(`server listening on ${port} `);

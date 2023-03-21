@@ -11,11 +11,6 @@ exports.findUserById = async(payload)=>{
   return userModel.findById(payload)
 }
 
-exports.getUserByEmail = async(payload)=>{
-  return userModel.findOne({
-    email:payload.email
-  })
-}
 
 exports.generateOtp = async(payload)=>{
   return otpModel.create(payload)

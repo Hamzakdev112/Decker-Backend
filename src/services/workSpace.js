@@ -22,6 +22,18 @@ exports.createSpace = async(payload)=>{
 }
 
 
+exports.getUserByEmail = async (payload)=>{
+    const user = await workSpaceRepo.getUserByEmail(payload)
+  
+    if(!user)return {success:false,status:404,message:'No user found with this email'} 
+    const workspace = await workSpaceRepo.getSpaceForInvite(payload.spaceId)
+    // return {status:200,user}
+    const isInvited = workspace.invites.some(invite=>invite.userId == user._id.toString())
+    if(isInvited)return {success:false,status:404,message:`${user.firstName} is already invited`} 
+    return {success:true,status:200,user}
+  }
+
+
 exports.inviteMember = async(payload)=>{
 
     const space = await workSpaceRepo.getSpaceForInvite(payload.spaceId)
