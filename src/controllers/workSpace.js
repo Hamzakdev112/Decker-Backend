@@ -2,33 +2,31 @@ const { catchAsync } = require("../helpers/request");
 const workSpaceService = require('../services/workSpace')
 
 exports.createSpace = catchAsync(async (req,res,next)=>{
-
 const {user: creator} = req
 const payload = {...req.body, creator}
-
 res.body = await workSpaceService.createSpace(payload)
 res.status(res.body.status).json(res.body)
 })
 
+exports.getUserByEmail = catchAsync(async (req, res, next) => {
+  const {email,spaceId} = req.params
+  const payload = {email,spaceId};
+  res.body = await workSpaceService.getUserByEmail(payload);
+  res.status(res.body.status).json(res.body);
+});
 
 exports.inviteMember = catchAsync(async (req,res)=>{
-
   const {userId, spaceId, userEmail} = req.params
   const payload = {userId, spaceId,userEmail}
   res.body = await workSpaceService.inviteMember(payload)
   res.status(res.body.status).json(res.body)
-
-
 })
 exports.verifyMember = catchAsync(async (req,res)=>{
-
   const {token, spaceId} = req.params
   const {user:userId} = req
   const payload = {token, spaceId,userId}
   res.body = await workSpaceService.verifyMember(payload)
   res.status(res.body.status).json(res.body)
-
-
 })
 
 
@@ -75,8 +73,8 @@ exports.getTasks = catchAsync(async (req,res,next)=>{
 
 const {user} = req
 const {spaceId} = req.params
-const {search} = req.query
-const payload = {user, spaceId, search} 
+const {search, status} = req.query
+const payload = {user, spaceId, search,status} 
 res.body = await workSpaceService.getTasks(payload)
 res.body.status ? res
 .status(res.body.status)
@@ -84,7 +82,6 @@ res.body.status ? res
 :
 res.json(res.body)
 })
-
 
 
 exports.createTask = catchAsync(async (req,res,next)=>{

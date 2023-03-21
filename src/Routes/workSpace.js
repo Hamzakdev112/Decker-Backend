@@ -4,14 +4,12 @@ const workSpaceController = require("../controllers/workSpace");
 
 //Create a Space
 router.post('/spaces/new',verifyUser, workSpaceController.createSpace)
+//Search User By Email For Verification
+router.get('/spaces/byemail/:email/:spaceId', workSpaceController.getUserByEmail )
 //Invite Member to space
 router.put('/spaces/invite/:spaceId/:userId/:userEmail',verifyUser, workSpaceController.inviteMember)
 //Verify and add member
 router.put('/spaces/verify/:spaceId/:token',verifyUser, workSpaceController.verifyMember)
-
-
-
-
 //GET ALL WORKSPACES
 router.get('/spaces/all',verifyUser, workSpaceController.getSpaces)
 //Get a Space by Id

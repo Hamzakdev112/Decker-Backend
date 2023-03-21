@@ -43,21 +43,7 @@ exports.generateOtp = async (payload)=>{
   })
 }
 
-exports.getUserByEmail = async (payload)=>{
-  const user = await getUserByEmail(payload)
 
-  if(!user)return {
-    success:false,
-    status:404,
-    message:'No user found with this email'
-  } 
-
-  return {
-    success:true,
-    status:200,
-    user
-  }
-}
 
 exports.verifyOtp = async (payload)=>{
   const user = await findUserById(payload.user)
