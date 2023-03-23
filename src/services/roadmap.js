@@ -9,3 +9,12 @@ exports.createRoadmap =async (payload)=>{
     }
 
 }
+exports.createNode =async (payload)=>{
+    const node = await roadmapRepo.createNode(payload)
+    return {
+        success:true,
+        status:200,
+        node
+    }
+
+}

@@ -10,7 +10,8 @@ exports.createRoadmap = catchAsync(async(req,res)=>{
 
 exports.createNode = catchAsync(async(req,res)=>{
     // const {user:creator} = req
-    const payload = {...req.body}
+    const {roadmapId, parentId} = req.params
+    const payload = {...req.body,roadmapId, parentId}
     res.body = await roadmapService.createNode(payload)
     res.status(res.body.status).json(res.body)
 })
