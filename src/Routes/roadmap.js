@@ -2,9 +2,11 @@ const router = require('express').Router()
 const { verifyUser } = require('../middleware/auth')
 const roadmapController = require('../controllers/roadmap')
 
-//Create a Course 
-router.post('/courses/create', verifyUser, roadmapController.createCourse)
+//Create a roadmap 
+router.post('/roadmap/create', verifyUser, roadmapController.createRoadmap)
 
+//Create a node 
+router.post('/nodes/create', verifyUser, roadmapController.createNode)
 
 
 module.exports = router

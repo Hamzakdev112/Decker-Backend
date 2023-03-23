@@ -1,8 +1,16 @@
 const { catchAsync } = require("../helpers/request");
-// const roadmapService = require('')
+const roadmapService = require('../services/roadmap')
 
-exports.createCourse = catchAsync(async(req,res)=>{
+exports.createRoadmap = catchAsync(async(req,res)=>{
+    const {user:creator} = req
+    const payload = {...req.body,creator}
+    res.body = await roadmapService.createRoadmap(payload)
+    res.status(res.body.status).json(res.body)
+})
+
+exports.createNode = catchAsync(async(req,res)=>{
+    // const {user:creator} = req
     const payload = {...req.body}
-    res.body = await roadmapService.createCourse(payload)
+    res.body = await roadmapService.createNode(payload)
     res.status(res.body.status).json(res.body)
 })

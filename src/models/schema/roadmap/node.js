@@ -10,11 +10,11 @@ const nodeSchema = new mongoose.Schema({
         type:String,
         required:[true, 'Please enter course description']
     },
-    mainParent:{
+    roadmapId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Course'
+        ref:'Roadmap'
     },
-    parent:{
+    parentId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Node'
     },

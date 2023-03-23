@@ -1,7 +1,12 @@
 const mongoose = require('mongoose')
 
 
-const courseSchema = new mongoose.Schema({
+const roadmapSchema = new mongoose.Schema({
+    creator:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+    },
     title:{
         type:String,
         required:[true, 'Please enter course title']
@@ -12,4 +17,4 @@ const courseSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('Course',courseSchema)
+module.exports = mongoose.model('Roadmap',roadmapSchema)
