@@ -28,7 +28,6 @@ exports.createPost = async (postType, payload) => {
       return prev;
     }, {}),
   };
-
   const createPayload = {
     ...commonPayload,
     ...dynamicPayload[postType],

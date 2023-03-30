@@ -1,24 +1,18 @@
 const mongoose = require('mongoose')
 
-
 const nodeSchema = new mongoose.Schema({
-    title:{
+    content:{
         type:String,
-        required:[true, 'Please enter course title']
-    },
-    description:{
-        type:String,
-        required:[true, 'Please enter course description']
+        required:[true, 'Please enter course content']
     },
     roadmapId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Roadmap'
     },
-    parentId:{
+    nodeId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Node'
     },
 })
 
-nodeSchema.index({ parentId: 1 });
-module.exports = mongoose.model('Node',nodeSchema)
+module.exports = mongoose.model('Content',nodeSchema)

@@ -1,5 +1,6 @@
 const roadmapModel = require('../models/schema/roadmap/roadmap')
 const nodeModel = require('../models/schema/roadmap/node')
+const contentModel = require('../models/schema/roadmap/content')
 
 
 exports.createRoadmap = (payload)=>{
@@ -8,4 +9,20 @@ exports.createRoadmap = (payload)=>{
 
 exports.createNode = (payload)=>{
     return nodeModel.create(payload)
+}
+exports.getAllNodes = (roadmapId)=>{
+    return nodeModel.find({roadmapId}).limit(6).lean()
+}
+exports.findChildNodes = (nodeId)=>{
+    return nodeModel.find({parentId:nodeId}).select("_id").lean()
+}
+
+exports.deleteNodesWithChilds = (childIds) =>{
+    return nodeModel.deleteMany({_id: {$in:childIds}})
+}
+exports.createNodeContent = (payload) =>{
+    return contentModel.create(payload)
+}
+exports.getNodeContent = (payload) =>{
+    return contentModel.findOne({nodeId:payload.nodeId})
 }
