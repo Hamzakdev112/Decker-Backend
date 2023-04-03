@@ -28,7 +28,7 @@ exports.getAllNodes = async(payload)=>{
             const childNodes = buildTree(node._id.toString())
             treeNode.push({
                 id:node._id,
-                title:node.title,
+                name:node.title,
                 description:node.description,
                 parentId:node.parentId,
                 children:childNodes

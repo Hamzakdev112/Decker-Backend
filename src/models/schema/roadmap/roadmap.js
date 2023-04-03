@@ -5,7 +5,6 @@ const roadmapSchema = new mongoose.Schema({
     creator:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        required:true
     },
     title:{
         type:String,

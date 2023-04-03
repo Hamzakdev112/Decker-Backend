@@ -11,7 +11,7 @@ exports.createNode = (payload)=>{
     return nodeModel.create(payload)
 }
 exports.getAllNodes = (roadmapId)=>{
-    return nodeModel.find({roadmapId}).limit(6).lean()
+    return nodeModel.find({roadmapId}).lean()
 }
 exports.findChildNodes = (nodeId)=>{
     return nodeModel.find({parentId:nodeId}).select("_id").lean()
