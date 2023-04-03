@@ -9,6 +9,15 @@ exports.createRoadmap =async (payload)=>{
     }
 
 }
+exports.getRoadmap =async ()=>{
+    const roadmap = await roadmapRepo.getRoadmap()
+    return {
+        success:true,
+        status:200,
+        roadmap
+    }
+
+}
 exports.createNode =async (payload)=>{
     const node = await roadmapRepo.createNode(payload)
     return {
@@ -20,8 +29,8 @@ exports.createNode =async (payload)=>{
 }
 
 exports.getAllNodes = async(payload)=>{
-    const nodes = await roadmapRepo.getAllNodes(payload.roadmapId)
-      const buildTree = (parentId) => {
+    const nodes = await roadmapRepo.getAllNodes(payload.roadmapId) 
+    const buildTree = (parentId) => {
         const newNodes = nodes.filter((n)=>n.parentId == parentId)
         const treeNode = [];
         for(const node of newNodes){
@@ -37,6 +46,7 @@ exports.getAllNodes = async(payload)=>{
         return treeNode
       }
       const tree = buildTree(payload.roadmapId)
+      console.log(tree)
       return {
         success:true,
         status:200,

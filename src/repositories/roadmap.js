@@ -6,12 +6,14 @@ const contentModel = require('../models/schema/roadmap/content')
 exports.createRoadmap = (payload)=>{
     return roadmapModel.create(payload)
 }
-
+exports.getRoadmap = (payload)=>{
+    return roadmapModel.find()
+}
 exports.createNode = (payload)=>{
     return nodeModel.create(payload)
 }
-exports.getAllNodes = (roadmapId)=>{
-    return nodeModel.find({roadmapId}).limit(6).lean()
+exports.getAllNodes = async(roadmapId)=>{
+    return await nodeModel.find({roadmapId}).limit(6).lean()
 }
 exports.findChildNodes = (nodeId)=>{
     return nodeModel.find({parentId:nodeId}).select("_id").lean()
