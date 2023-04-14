@@ -6,7 +6,9 @@ const contentModel = require('../models/schema/roadmap/content')
 exports.createRoadmap = (payload)=>{
     return roadmapModel.create(payload)
 }
-
+exports.getRoadmap = (payload)=>{
+    return roadmapModel.find()
+}
 exports.createNode = (payload)=>{
     return nodeModel.create(payload)
 }

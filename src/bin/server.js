@@ -15,6 +15,7 @@ const paymentRoute = require('../Routes/payment')
 const commentRoute = require('../Routes/comments')
 const likeRoute = require('../Routes/likes')
 const roadmapRoute = require('../Routes/roadmap')
+const compilerRoute = require('../Routes/compiler')
 
 
 //MIDDLEWARES
@@ -44,6 +45,7 @@ app.use("/api/payment", paymentRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/workspace", workSpaceRoute);
 app.use("/api/roadmap", roadmapRoute);
+app.use("/api/compiler", compilerRoute);
 
 app.listen(port, () => {
   console.log(`server listening on ${port} `);

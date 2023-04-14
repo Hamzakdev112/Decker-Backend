@@ -15,6 +15,11 @@ router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
 router.get("/logout", userController.logout);
 
+
+
+
+
+
 //Update Profile Picture
 router.put("/updateprofile/:id", multer, userController.uploadImage);
 

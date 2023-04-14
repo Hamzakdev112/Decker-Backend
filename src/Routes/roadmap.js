@@ -9,7 +9,9 @@ const chance = new Chance()
 //Create a roadmap 
 router.post('/roadmap/create', roadmapController.createRoadmap)
 //Create a node 
-router.post('/nodes/create/:roadmapId/:parentId', roadmapController.createNode)
+router.post('/nodes/create/:roadmapId/:parentId', verifyUser, roadmapController.createNode)
+// Get Roadmap
+router.get('/roadmap', roadmapController.getRoadmap)
 //Get all nodes
 router.get('/nodes/get/:roadmapId', roadmapController.getAllNodes)
 //Delete a node
