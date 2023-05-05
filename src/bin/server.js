@@ -15,7 +15,8 @@ const paymentRoute = require('../Routes/payment')
 const commentRoute = require('../Routes/comments')
 const likeRoute = require('../Routes/likes')
 const roadmapRoute = require('../Routes/roadmap')
-const compilerRoute = require('../Routes/compiler')
+const compilerRoute = require('../Routes/compiler');
+const path = require("path");
 
 
 //MIDDLEWARES
@@ -25,17 +26,19 @@ app.use(cors({
   origin:'http://localhost:3000',
   credentials:true
 }))
+
 app.use(CookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
-  session({
+  session({ 
     secret: "my-secret-key",
     resave: true,
     saveUninitialized: true,
   })
 );
 
+app.use(express.static(path.join(__dirname, '..', 'build')))
 //Routes
 app.use('/api/comments',commentRoute)
 app.use('/api/likes',likeRoute)
@@ -47,6 +50,9 @@ app.use("/api/workspace", workSpaceRoute);
 app.use("/api/roadmap", roadmapRoute);
 app.use("/api/compiler", compilerRoute);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
 app.listen(port, () => {
   console.log(`server listening on ${port} `);
 });

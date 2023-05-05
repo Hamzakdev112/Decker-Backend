@@ -23,6 +23,9 @@ const spaceSchema = new mongoose.Schema({
         type:Array,
         default: ['name', 'dueDate', 'priority', 'assignee', 'status', 'timer'],
     },
+    statuses:{
+        type:Array,
+    },
     creator: {
         type: String,
         required:true,
