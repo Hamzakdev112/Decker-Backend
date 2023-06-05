@@ -97,11 +97,11 @@ res.json(res.body)
 exports.deleteTask = catchAsync(async (req,res,next)=>{
 
 const {user: assigner} = req
-const { spaceId } = req.params
-const payload = {...req.body, assigner, spaceId}
+const { taskId } = req.params
+const payload = {...req.body, assigner, taskId}
 
-// res.body = await workSpaceService.createTask(payload)
-res.json(res.body)
+res.body = await workSpaceService.deleteTask(payload)
+res.json(payload)
 })
 
 exports.updateTask = catchAsync(async (req, res, next) => {

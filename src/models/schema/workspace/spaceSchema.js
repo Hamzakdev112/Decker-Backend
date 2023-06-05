@@ -24,7 +24,15 @@ const spaceSchema = new mongoose.Schema({
         default: ['name', 'dueDate', 'priority', 'assignee', 'status', 'timer'],
     },
     statuses:{
-        type:Array,
+        type: [{
+            _id: {
+                type: mongoose.Schema.Types.ObjectId,
+                default: mongoose.Types.ObjectId,
+              },
+            title: String,
+            color: String,
+          }],
+          
     },
     creator: {
         type: String,

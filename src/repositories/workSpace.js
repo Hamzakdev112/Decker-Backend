@@ -96,6 +96,7 @@ exports.getTasks = async(payload)=>{
                 select:'_id firstName lastName'
             }
         ])
+        .select('-description -attachments -watchers')
         .sort({createdAt:-1})
         }
         else{
@@ -110,6 +111,7 @@ exports.getTasks = async(payload)=>{
                     select:'_id firstName lastName'
                 }
             ])
+        .select('-description -attachments -watchers')
             .sort({createdAt:-1})
 
         }
@@ -132,4 +134,14 @@ exports.updateTask = async(payload,assigner,field, taskId) => {
         },
         {[field]: payload[field]},
         {new:true,fields:{[field]:1}})
+  };
+exports.deleteTask = async(assigner, taskId) => {
+    return  TaskModel.findOneAndDelete(
+        {
+            $and:[
+                {_id:taskId,} ,
+                {assigner,} 
+            ]
+        },
+    )
   };

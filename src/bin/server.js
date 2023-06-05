@@ -7,13 +7,9 @@ var bodyParser = require('body-parser');
 const CookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const session=require('express-session')
-const postRoute = require('../Routes/post')
 const userRoute = require('../Routes/user')
 const chatRoute = require('../Routes/chat')
 const workSpaceRoute = require('../Routes/workSpace')
-const paymentRoute = require('../Routes/payment')
-const commentRoute = require('../Routes/comments')
-const likeRoute = require('../Routes/likes')
 const roadmapRoute = require('../Routes/roadmap')
 const compilerRoute = require('../Routes/compiler');
 const path = require("path");
@@ -40,11 +36,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '..', 'build')))
 //Routes
-app.use('/api/comments',commentRoute)
-app.use('/api/likes',likeRoute)
-app.use("/api/posts", postRoute);
 app.use("/api/users", userRoute);
-app.use("/api/payment", paymentRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/workspace", workSpaceRoute);
 app.use("/api/roadmap", roadmapRoute);

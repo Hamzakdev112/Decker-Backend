@@ -19,10 +19,8 @@ exports.createUser = catchAsync(async (req, res, next) => {
   const payload = {otp, ...req.body};
 
   res.body = await userService.createUser(payload);
-  await userService.generateOtp({otp:otp,user:res.body.user._id})
-
-
-  res.json(res.body);
+  // await userService.generateOtp({otp:otp,user:res.body.user._id})
+  res.status(res.body.status).json(res.body);
 });
 
 

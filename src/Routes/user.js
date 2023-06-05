@@ -5,20 +5,11 @@ const userController = require('../controllers/user');
 const {verifyUser} = require('../middleware/auth')
 // const {sendOTP}=require('../controllers/firebase')
 const multer = require("../middleware/multer");
-const passport = require("../middleware/passport");
-
-
-router.put("/sample/:userType", verifyUser, userController.userLevel);
 
 //Auth
 router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
 router.get("/logout", userController.logout);
-
-
-
-
-
 
 //Update Profile Picture
 router.put("/updateprofile/:id", multer, userController.uploadImage);
@@ -47,19 +38,19 @@ router.post('/friendRequest/:id', verifyUser, userController.friendRequest)
 // check friend request 
 router.get('/checkrequest', verifyUser, userController.checkRequest)
 
-//Passport authentication
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// //Passport authentication
+// router.get(
+//   "/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/");// right now this does not exist . Will have to enter some valid endpoint when front end is created
-  }
-);
+// router.get(
+//   "/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/login" }),
+//   (req, res) => {
+//     res.redirect("/");// right now this does not exist . Will have to enter some valid endpoint when front end is created
+//   }
+// );
 
 router.get("/", (req, res) => {
   if (req.user) {

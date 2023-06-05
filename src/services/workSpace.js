@@ -11,8 +11,7 @@ exports.createSpace = async(payload)=>{
         members:[payload.creator, payload.members],
         admins:[payload.creator, payload.admin],
         moderators:payload.moderators,
-        columns:payload.columns,
-        statuses:payload.statuses
+        columns:payload.columns
     })
     return {
         status:200,
