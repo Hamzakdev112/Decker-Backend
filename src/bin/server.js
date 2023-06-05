@@ -13,10 +13,14 @@ const workSpaceRoute = require('../Routes/workSpace')
 const roadmapRoute = require('../Routes/roadmap')
 const compilerRoute = require('../Routes/compiler');
 const path = require("path");
-
-
+const dotenv = require('dotenv')
+dotenv.config({path:'../../'})
+console.log(dotenv)
 //MIDDLEWARES
 app.use(express.json())
+
+
+
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
   origin:'http://localhost:3000',

@@ -4,9 +4,9 @@ let redis;
 exports.connectRedis = async ()=>{
     try{
         redis = new Redis({
-            host: 'redis-10794.c12.us-east-1-4.ec2.cloud.redislabs.com',
+            host: process.env.REDIS_HOST,
             port: 10794,
-            password: 'sUEdQJzeYHXE6xoAAG9azYmHanDJli2E',
+            password: process.env.REDIS_PASSWORD,
         })
 
     }catch(err){
