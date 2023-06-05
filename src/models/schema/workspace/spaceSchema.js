@@ -40,7 +40,7 @@ const spaceSchema = new mongoose.Schema({
           
     },
     creator: {
-        type: String,
+        type: String, 
         required:true,
     },
     members: {
