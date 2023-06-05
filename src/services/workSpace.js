@@ -138,7 +138,7 @@ exports.getTasks = async(payload)=>{
 }
 exports.createTask = async(payload)=>{
 
-    const space = await workSpaceRepo.createTask({
+    const task = await workSpaceRepo.createTask({
         spaceId: payload.spaceId,
         name: payload.name,
         description:payload.description,
@@ -151,13 +151,18 @@ exports.createTask = async(payload)=>{
     })
     return {
         success:true,
-        space
+        task
     }
 
 }
 
 exports.updateTask = async (payload, assigner,field, taskId) => {
     const task = await workSpaceRepo.updateTask(payload,assigner, field, taskId);
+    return task
+  };
+
+exports.deleteTask = async (payload) => {
+    const task = await workSpaceRepo.deleteTask(payload.assigner, payload.taskId);
     return task
   };
 

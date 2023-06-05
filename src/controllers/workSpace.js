@@ -98,7 +98,7 @@ exports.deleteTask = catchAsync(async (req,res,next)=>{
 
 const {user: assigner} = req
 const { taskId } = req.params
-const payload = {...req.body, assigner, taskId}
+const payload = {assigner, taskId}
 
 res.body = await workSpaceService.deleteTask(payload)
 res.json(payload)
