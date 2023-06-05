@@ -32,6 +32,11 @@ const spaceSchema = new mongoose.Schema({
             title: String,
             color: String,
           }],
+          default:[
+            {title:"IN PROGRESS", color:'red'},
+            {title:"FREEZE", color:'#0861cf'},
+            {title:"COMPLETED", color:'green'},
+        ]
           
     },
     creator: {

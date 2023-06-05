@@ -1,6 +1,5 @@
 const userModel = require("../models/schema/user");
 const otpModel = require("../models/schema/otp");
-const generalModel = require("../models/schema/postsSchema/generalPost");
 const friendRequest = require("../models/schema/friendRequest");
 exports.createUser = (payload) => {
   return userModel.create(payload);
